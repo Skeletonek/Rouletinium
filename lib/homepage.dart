@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:rouletinium/roulette.dart';
 import 'package:roulette/roulette.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -12,8 +13,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   static final _random = Random();
 
-  late RouletteController _controller;
+  late RouletteController _rouletteController;
+  late TextEditingController _textEditingController;
   bool _clockwise = true;
+  List<String> list = [];
 
   final colors = <Color>[
     Colors.red.withAlpha(50),
@@ -27,10 +30,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   void initState() {
     final group = RouletteGroup.uniform(
-      colors.length,
+      list.length,
       colorBuilder: colors.elementAt,
+      textBuilder: list.elementAt,
     );
-    _controller = RouletteController(vsync: this, group: group);
+    _rouletteController = RouletteController(vsync: this, group: group);
+    _textEditingController = TextEditingController(text: "");
     super.initState();
   }
 
@@ -49,17 +54,47 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        constraints: BoxConstraints(
+                          maxWidth: 200,
+                        )
+                    ),
+                    controller: _textEditingController,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          list.add(_textEditingController.text);
+                          var group = RouletteGroup.uniform(
+                            list.length,
+                            colorBuilder: colors.elementAt,
+                            textBuilder: list.elementAt,
+                          );
+                          _rouletteController.group = group;
+                          _rouletteController.resetAnimation();
+                        });
+                      },
+                      child: const Text(
+                        "Dodaj"
+                      )
+                  ),
+                ],
+              ),
+              Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    "Clockwise: ",
+                    "Zgodnie ze wskazówkami zegara: ",
                     style: TextStyle(fontSize: 18),
                   ),
                   Switch(
                     value: _clockwise,
                     onChanged: (onChanged) {
                       setState(() {
-                        _controller.resetAnimation();
+                        _rouletteController.resetAnimation();
                         _clockwise = !_clockwise;
                       });
                     },
@@ -67,8 +102,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ],
               ),
               Expanded(
-                child: Roulette(
-                  controller: _controller
+                child: MyRoulette(
+                  controller: _rouletteController
                 ),
               ),
             ],
@@ -77,8 +112,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ),
       floatingActionButton: FloatingActionButton(
         // Use the controller to run the animation with rollTo method
-        onPressed: () => _controller.rollTo(
-          3,
+        onPressed: () => _rouletteController.rollTo(
+          0,
           clockwise: _clockwise,
           offset: _random.nextDouble(),
         ),
@@ -87,9 +122,20 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     );
   }
 
+  List<Widget> objectsInListAsText() {
+    List<Widget> widgets = [];
+
+    for(int i = 0; i < list.length; i++) {
+        widgets.add(Text(list[i]));
+    }
+
+    return widgets;
+  }
+
   @override
   void dispose() {
-    _controller.dispose();
+    _rouletteController.dispose();
+    _textEditingController.dispose();
     super.dispose();
   }
 }
