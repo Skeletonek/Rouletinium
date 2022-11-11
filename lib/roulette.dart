@@ -15,9 +15,7 @@ class MyRoulette extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        SizedBox(
-          width: 260,
-          height: 260,
+        Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 30),
             child: Roulette(

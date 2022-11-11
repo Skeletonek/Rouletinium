@@ -7,7 +7,7 @@ class Arrow extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 20,
-      height: 36,
+      height: 50,
       child: CustomPaint(painter: _ArrowPainter()),
     );
   }

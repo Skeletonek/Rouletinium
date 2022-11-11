@@ -19,16 +19,27 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   List<String> list = [];
 
   final colors = <Color>[
-    Colors.red.withAlpha(50),
-    Colors.green.withAlpha(30),
-    Colors.blue.withAlpha(70),
-    Colors.yellow.withAlpha(90),
-    Colors.amber.withAlpha(50),
-    Colors.indigo.withAlpha(70),
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.yellow,
+    Colors.amber,
+    Colors.indigo,
+    Colors.cyan,
+    Colors.pink,
+    Colors.teal,
+    Colors.brown,
+    Colors.greenAccent,
+    Colors.lime,
+    Colors.purple,
+    Colors.deepPurple
   ];
 
   @override
   void initState() {
+    for(int i = 0; i < colors.length; i++) {
+        colors[i] = colors[i].withAlpha(70);
+      }
     final group = RouletteGroup.uniform(
       list.length,
       colorBuilder: colors.elementAt,
@@ -111,11 +122,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // Use the controller to run the animation with rollTo method
         onPressed: () => _rouletteController.rollTo(
-          0,
+          _random.nextInt(list.length),
           clockwise: _clockwise,
-          offset: _random.nextDouble(),
+          offset: _random.nextDouble() * 0.9,
         ),
         child: const Icon(Icons.refresh_rounded),
       ),
