@@ -13,22 +13,25 @@ class MyRoulette extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.topCenter,
+      alignment: AlignmentDirectional.topCenter,
       children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Roulette(
-              controller: controller,
-              style: const RouletteStyle(
+        const Arrow(),
+        Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Roulette(
+            controller: controller,
+            style: const RouletteStyle(
                 dividerThickness: 4,
                 textLayoutBias: .8,
                 centerStickerColor: Color(0xFF45A3FA),
-              ),
+                textStyle: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Sans",
+                )
             ),
           ),
         ),
-        const Arrow(),
       ],
     );
   }

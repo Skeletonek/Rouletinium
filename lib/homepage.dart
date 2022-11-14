@@ -38,8 +38,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   void initState() {
     for(int i = 0; i < colors.length; i++) {
-        colors[i] = colors[i].withAlpha(70);
-      }
+      colors[i] = colors[i].withAlpha(70);
+    }
     final group = RouletteGroup.uniform(
       list.length,
       colorBuilder: colors.elementAt,
@@ -78,19 +78,40 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                   TextButton(
                       onPressed: () {
                         setState(() {
-                          list.add(_textEditingController.text);
-                          var group = RouletteGroup.uniform(
-                            list.length,
-                            colorBuilder: colors.elementAt,
-                            textBuilder: list.elementAt,
-                          );
-                          _rouletteController.group = group;
-                          _rouletteController.resetAnimation();
+                          try {
+                            list.add(_textEditingController.text);
+                            var group = RouletteGroup.uniform(
+                              list.length,
+                              colorBuilder: colors.elementAt,
+                              textBuilder: list.elementAt,
+                            );
+                            _rouletteController.group = group;
+                            _rouletteController.resetAnimation();
+                          } catch (e) {
+                            if(list.contains(_textEditingController.text)) {
+                              list.remove(_textEditingController.text);
+                            }
+
+                            AlertDialog dialog = AlertDialog(
+                              title: const Text("Error"),
+                              content: const Text("Przekroczono limit możliwych wpisów"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Ok")),
+                              ],
+                            );
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return dialog;
+                                });
+                          }
                         });
                       },
-                      child: const Text(
-                        "Dodaj"
-                      )
+                      child: const Text("Dodaj")
                   ),
                 ],
               ),
@@ -114,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               ),
               Expanded(
                 child: MyRoulette(
-                  controller: _rouletteController
+                    controller: _rouletteController
                 ),
               ),
             ],
@@ -136,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     List<Widget> widgets = [];
 
     for(int i = 0; i < list.length; i++) {
-        widgets.add(Text(list[i]));
+      widgets.add(Text(list[i]));
     }
 
     return widgets;
