@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rouletinium/roulette.dart';
 import 'package:roulette/roulette.dart';
@@ -16,7 +17,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   late RouletteController _rouletteController;
   late TextEditingController _textEditingController;
   bool _clockwise = true;
+  String _winnerText = "";
   List<String> list = [];
+  int _winnerIndex = 0;
+  Timer? _timer;
 
   final colors = <Color>[
     Colors.red,
@@ -64,6 +68,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         child: Center(
           child: Column(
             children: [
+              Text(
+                  _winnerText
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -73,45 +80,26 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           maxWidth: 200,
                         )
                     ),
+                    maxLength: 20,
                     controller: _textEditingController,
                   ),
                   TextButton(
                       onPressed: () {
                         setState(() {
-                          try {
-                            list.add(_textEditingController.text);
-                            var group = RouletteGroup.uniform(
-                              list.length,
-                              colorBuilder: colors.elementAt,
-                              textBuilder: list.elementAt,
-                            );
-                            _rouletteController.group = group;
-                            _rouletteController.resetAnimation();
-                          } catch (e) {
-                            if(list.contains(_textEditingController.text)) {
-                              list.remove(_textEditingController.text);
-                            }
-
-                            AlertDialog dialog = AlertDialog(
-                              title: const Text("Error"),
-                              content: const Text("Przekroczono limit możliwych wpisów"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("Ok")),
-                              ],
-                            );
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return dialog;
-                                });
-                          }
+                          addItemButtonPressed();
+                          _textEditingController.text = "";
                         });
                       },
                       child: const Text("Dodaj")
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          clearItemsButtonPressed();
+                          _textEditingController.text = "";
+                        });
+                      },
+                      child: const Text("Wyczyść")
                   ),
                 ],
               ),
@@ -143,14 +131,62 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _rouletteController.rollTo(
-          _random.nextInt(list.length),
+        onPressed: () {
+          _winnerIndex = _random.nextInt(list.length);
+          _rouletteController.rollTo(
+          _winnerIndex,
           clockwise: _clockwise,
           offset: _random.nextDouble() * 0.9,
-        ),
+          );
+        },
         child: const Icon(Icons.refresh_rounded),
       ),
     );
+  }
+
+  void addItemButtonPressed() {
+    try {
+      list.add(_textEditingController.text);
+      var group = RouletteGroup.uniform(
+        list.length,
+        colorBuilder: colors.elementAt,
+        textBuilder: list.elementAt,
+      );
+      _rouletteController.group = group;
+      _rouletteController.resetAnimation();
+    } catch (e) {
+      if(list.contains(_textEditingController.text)) {
+        list.remove(_textEditingController.text);
+      }
+
+      AlertDialog dialog = AlertDialog(
+        title: const Text("Error"),
+        content: const Text("Przekroczono limit możliwych wpisów"),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Ok")),
+        ],
+      );
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          });
+    }
+  }
+
+  void clearItemsButtonPressed() {
+    list.clear();
+    var group = RouletteGroup.uniform(
+      list.length,
+      colorBuilder: colors.elementAt,
+      textBuilder: list.elementAt,
+    );
+    _rouletteController.group = group;
+    _rouletteController.resetAnimation();
   }
 
   List<Widget> objectsInListAsText() {
@@ -163,10 +199,23 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return widgets;
   }
 
+  void startTimer() {
+    _timer = Timer.periodic(
+        const Duration(seconds: 3),
+            (timer) => setState(
+                () {
+                  print("Fired!");
+              _winnerText = list[_winnerIndex];
+              _timer?.cancel();
+            }
+        ));
+  }
+
   @override
   void dispose() {
     _rouletteController.dispose();
     _textEditingController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 }
