@@ -1,6 +1,6 @@
 ![RouletiniumBannerAnim](https://user-images.githubusercontent.com/41450243/202514418-841388cd-5021-4c99-8a0f-bb7668bd4c0b.gif)
 
-A simple roulette application using [roulette](https://pub.dev/packages/roulette) package available in pub.dev
+A simple roulette application written in [Flutter](https://flutter.dev/) using [roulette](https://pub.dev/packages/roulette) package available in pub.dev
 
 Application is designed to run under Android, Linux, Windows and Web
 
