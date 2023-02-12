@@ -2,7 +2,7 @@ name: Flutter Web
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   build:
     name: Build Web
@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
-          channel: 'dev'
-      - run: flutter config --enable-web
+          flutter-version: '3.7.3'
+          channel: 'stable'
       - run: flutter pub get
       - run: flutter build web --release
       - run: |
