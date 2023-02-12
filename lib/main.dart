@@ -1,15 +1,18 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 import 'homepage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isWindows || Platform.isLinux) {
-    setWindowTitle("Rouletinium");
-    setWindowMinSize(const Size(600, 400));
-  }
+  if (!kIsWeb) {
+    if (Platform.isWindows || Platform.isLinux) {
+      setWindowTitle("Rouletinium");
+      setWindowMinSize(const Size(600, 400));
+    }
+}
   runApp(const MyApp());
 }
 
