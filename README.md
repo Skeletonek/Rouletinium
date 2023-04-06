@@ -9,6 +9,6 @@ Application is designed to run under Android, Linux, Windows and Web
 ![Rouletinium](https://user-images.githubusercontent.com/41450243/202514860-a005ab73-2f4f-4087-91c3-4d959d48f486.png)
 
 # Instalation
-You can install already builded versions from [Releases](https://github.com/Skeletonek/Rouletinium/releases) section
+You can install already builded versions from [Releases](https://gitlab.com/Skeletonek/Rouletinium/-/releases) section
 
-You can also run the web version available from [here](https://skeletonek.github.io/Rouletinium/)
+You can also run the web version available from [here](https://rouletinium.skeletonek.com/)
