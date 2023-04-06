@@ -1,0 +1,18 @@
+image: cirrusci/flutter:latest
+
+before_script:
+  - flutter channel stable
+  - flutter upgrade
+  - flutter config --enable-web
+  - flutter pub get
+
+pages:
+  stage: deploy
+  script:
+    - flutter build web
+    - cp -r build/web public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
