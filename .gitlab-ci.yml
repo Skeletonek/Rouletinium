@@ -1,9 +1,6 @@
-image: cirrusci/flutter:latest
+image: ghcr.io/cirruslabs/flutter:3.7.9
 
 before_script:
-  - flutter channel stable
-  - flutter upgrade
-  - flutter config --enable-web
   - flutter pub get
 
 pages:
