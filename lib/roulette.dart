@@ -28,6 +28,7 @@ class MyRoulette extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontFamily: "Sans",
                   overflow: TextOverflow.ellipsis,
+                  color: Colors.white
                 )
             ),
           ),

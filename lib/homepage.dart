@@ -132,6 +132,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                   ),
                 ],
               ),
+              Container(
+                height: 64,
+              ),
             ],
           ),
         ),
