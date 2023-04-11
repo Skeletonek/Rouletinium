@@ -148,7 +148,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           offset: _random.nextDouble() * 0.9,
           );
         },
-        child: const Icon(Icons.refresh_rounded),
+        child: const Icon(
+          Icons.play_arrow,
+          color: Colors.white,
+          size: 32,
+        ),
       ),
     );
   }
