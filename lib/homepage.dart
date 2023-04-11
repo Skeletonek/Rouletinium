@@ -16,6 +16,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   late RouletteController _rouletteController;
   late TextEditingController _textEditingController;
+  late FocusNode _textFocusNode;
   bool _clockwise = true;
   String _winnerText = "";
   List<String> list = [];
@@ -51,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     );
     _rouletteController = RouletteController(vsync: this, group: group);
     _textEditingController = TextEditingController(text: "");
+    _textFocusNode = FocusNode();
     super.initState();
   }
 
@@ -71,37 +73,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               Text(
                   _winnerText
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        constraints: BoxConstraints(
-                          maxWidth: 200,
-                        )
-                    ),
-                    maxLength: 20,
-                    controller: _textEditingController,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        setState(() {
-                          addItemButtonPressed();
-                          _textEditingController.text = "";
-                        });
-                      },
-                      child: const Text("Dodaj")
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        setState(() {
-                          clearItemsButtonPressed();
-                          _textEditingController.text = "";
-                        });
-                      },
-                      child: const Text("Wyczyść")
-                  ),
-                ],
+              Expanded(
+                child: MyRoulette(
+                    controller: _rouletteController
+                ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -121,10 +96,44 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                   ),
                 ],
               ),
-              Expanded(
-                child: MyRoulette(
-                    controller: _rouletteController
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        constraints: BoxConstraints(
+                          maxWidth: 200,
+                        )
+                    ),
+                    maxLength: 20,
+                    controller: _textEditingController,
+                    onFieldSubmitted: (value){
+                      addItemButtonPressed();
+                      _textEditingController.text = "";
+                      _textFocusNode.requestFocus();
+                    },
+                    focusNode: _textFocusNode,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          addItemButtonPressed();
+                          _textEditingController.text = "";
+                          _textFocusNode.requestFocus();
+                        });
+                      },
+                      child: const Text("Dodaj")
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          clearItemsButtonPressed();
+                          _textEditingController.text = "";
+                        });
+                      },
+                      child: const Text("Wyczyść")
+                  ),
+                ],
               ),
             ],
           ),
