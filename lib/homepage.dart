@@ -64,9 +64,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ),
       body: Container(
         padding: const EdgeInsetsDirectional.all(20),
-        decoration: BoxDecoration(
-          //color: Colors.blue.withOpacity(0.1),
-        ),
         child: Center(
           child: Column(
             children: [
