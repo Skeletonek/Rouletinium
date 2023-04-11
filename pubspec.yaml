@@ -17,6 +17,21 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 0.3.0+4
 
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "media/icon.png"
+  min_sdk_android: 16 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "media/icon.png"
+    background_color: "#ffffff"
+    theme_color: "#0093ff"
+  windows:
+    generate: true
+    image_path: "media/icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+
 environment:
   sdk: ">=2.17.1 <3.0.0"
 
@@ -39,6 +54,7 @@ dependencies:
     git:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
+  flutter_launcher_icons: ^0.13.0
 
 dev_dependencies:
   flutter_test:
