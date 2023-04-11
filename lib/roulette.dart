@@ -15,7 +15,6 @@ class MyRoulette extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       children: [
-        const Arrow(),
         Padding(
           padding: const EdgeInsets.only(top: 30),
           child: Roulette(
@@ -33,6 +32,7 @@ class MyRoulette extends StatelessWidget {
             ),
           ),
         ),
+        const Arrow(),
       ],
     );
   }
