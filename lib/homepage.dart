@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   void initState() {
     for(int i = 0; i < colors.length; i++) {
-      colors[i] = colors[i].withAlpha(70);
+      colors[i] = colors[i].withAlpha(140);
     }
     final group = RouletteGroup.uniform(
       list.length,
