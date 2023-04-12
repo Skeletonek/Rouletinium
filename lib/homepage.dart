@@ -45,11 +45,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     for(int i = 0; i < colors.length; i++) {
       colors[i] = colors[i].withAlpha(140);
     }
+    while(list.length < 2){
+      list.add("");
+    }
     final group = RouletteGroup.uniform(
       list.length,
       colorBuilder: colors.elementAt,
       textBuilder: list.elementAt,
     );
+    list.clear();
     _rouletteController = RouletteController(vsync: this, group: group);
     _textEditingController = TextEditingController(text: "");
     _textFocusNode = FocusNode();
@@ -160,18 +164,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   void addItemButtonPressed() {
     try {
       list.add(_textEditingController.text);
-      var group = RouletteGroup.uniform(
-        list.length,
-        colorBuilder: colors.elementAt,
-        textBuilder: list.elementAt,
-      );
-      _rouletteController.group = group;
-      _rouletteController.resetAnimation();
-    } catch (e) {
+      assignGroupToRoulette();
+    } on RangeError catch (e) {
       if(list.contains(_textEditingController.text)) {
         list.remove(_textEditingController.text);
       }
-
       AlertDialog dialog = AlertDialog(
         title: const Text("Error"),
         content: const Text("Przekroczono limit możliwych wpisów"),
@@ -193,6 +190,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   void clearItemsButtonPressed() {
     list.clear();
+    assignGroupToRoulette();
+  }
+
+  void assignGroupToRoulette() {
+    var additionalFieldToRemove = 0;
+    while(list.length < 2){
+      list.add("");
+      additionalFieldToRemove++;
+    }
     var group = RouletteGroup.uniform(
       list.length,
       colorBuilder: colors.elementAt,
@@ -200,6 +206,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     );
     _rouletteController.group = group;
     _rouletteController.resetAnimation();
+    while(additionalFieldToRemove > 0){
+      list.removeLast();
+      additionalFieldToRemove--;
+    }
   }
 
   List<Widget> objectsInListAsText() {
