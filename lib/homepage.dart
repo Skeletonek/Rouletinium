@@ -82,9 +82,18 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          clearItemsButtonPressed();
+                          _textEditingController.text = "";
+                        });
+                      },
+                      child: const Text("Wyczyść")
+                  ),
                   const Text(
                     "Zgodnie ze wskazówkami zegara: ",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 16),
                   ),
                   Switch(
                     value: _clockwise,
@@ -116,23 +125,22 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                     focusNode: _textFocusNode,
                   ),
                   TextButton(
-                      onPressed: () {
-                        setState(() {
-                          addItemButtonPressed();
-                          _textEditingController.text = "";
-                          _textFocusNode.requestFocus();
-                        });
-                      },
-                      child: const Text("Dodaj")
+                    onPressed: () {
+                      setState(() {
+                        addItemButtonPressed();
+                        _textEditingController.text = "";
+                        _textFocusNode.requestFocus();
+                      });
+                    },
+                    child: const Text("Dodaj")
                   ),
                   TextButton(
                       onPressed: () {
                         setState(() {
-                          clearItemsButtonPressed();
-                          _textEditingController.text = "";
+                          undoItemsButtonPressed();
                         });
                       },
-                      child: const Text("Wyczyść")
+                      child: const Text("Cofnij")
                   ),
                 ],
               ),
@@ -169,22 +177,16 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       if(list.contains(_textEditingController.text)) {
         list.remove(_textEditingController.text);
       }
-      AlertDialog dialog = AlertDialog(
-        title: const Text("Error"),
-        content: const Text("Przekroczono limit możliwych wpisów"),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Ok")),
-        ],
-      );
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return dialog;
-          });
+      showAlertDialog("Error", "Przekroczono limit możliwych wpisów.");
+    }
+  }
+
+  void undoItemsButtonPressed() {
+    if(list.isNotEmpty){
+      list.removeLast();
+      assignGroupToRoulette();
+    } else {
+      showAlertDialog("Error", "Nie można cofnąć dalej.");
     }
   }
 
@@ -210,6 +212,25 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       list.removeLast();
       additionalFieldToRemove--;
     }
+  }
+
+  void showAlertDialog(String title, String content) {
+    AlertDialog dialog = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Ok")),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
   }
 
   List<Widget> objectsInListAsText() {
