@@ -1,17 +1,17 @@
 import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:rouletinium/roulette.dart';
+import 'package:rouletinium/widgets/roulette.dart';
 import 'package:roulette/roulette.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   static final _random = Random();
 
   late RouletteController _rouletteController;
@@ -72,25 +72,17 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           child: Column(
             children: [
               Text(
-                  _winnerText
+                _winnerText
               ),
               Expanded(
                 child: MyRoulette(
-                    controller: _rouletteController
+                  controller: _rouletteController
                 ),
               ),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextButton(
-                      onPressed: () {
-                        setState(() {
-                          clearItemsButtonPressed();
-                          _textEditingController.text = "";
-                        });
-                      },
-                      child: const Text("Wyczyść")
-                  ),
                   const Text(
                     "Zgodnie ze wskazówkami zegara: ",
                     style: TextStyle(fontSize: 16),
@@ -106,6 +98,41 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                   ),
                 ],
               ),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(140, 255, 0, 0),
+                      padding: const EdgeInsets.all(16),
+                      minimumSize: const Size(96, 48),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        clearItemsButtonPressed();
+                        _textEditingController.text = "";
+                      });
+                    },
+                    child: const Text("Wyczyść")
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(140, 255, 150, 0),
+                      padding: const EdgeInsets.all(16),
+                      minimumSize: const Size(96, 48),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        undoItemsButtonPressed();
+                      });
+                    },
+                    child: const Text("Cofnij")
+                  ),
+                ],
+              ),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -124,7 +151,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                     },
                     focusNode: _textFocusNode,
                   ),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
                   TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.all(16),
+                      minimumSize: const Size(96, 48),
+                    ),
                     onPressed: () {
                       setState(() {
                         addItemButtonPressed();
@@ -133,14 +166,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                       });
                     },
                     child: const Text("Dodaj")
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        setState(() {
-                          undoItemsButtonPressed();
-                        });
-                      },
-                      child: const Text("Cofnij")
                   ),
                 ],
               ),
@@ -155,9 +180,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         onPressed: () {
           _winnerIndex = _random.nextInt(list.length);
           _rouletteController.rollTo(
-          _winnerIndex,
-          clockwise: _clockwise,
-          offset: _random.nextDouble() * 0.9,
+            _winnerIndex,
+            clockwise: _clockwise,
+            offset: _random.nextDouble() * 0.9,
           );
         },
         child: const Icon(
@@ -248,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         const Duration(seconds: 3),
             (timer) => setState(
                 () {
-                  print("Fired!");
+              print("Fired!");
               _winnerText = list[_winnerIndex];
               _timer?.cancel();
             }

@@ -16,7 +16,7 @@ class MyRoulette extends StatelessWidget {
       alignment: AlignmentDirectional.topCenter,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 30),
+          padding: const EdgeInsets.only(top: 4),
           child: Roulette(
             controller: controller,
             style: const RouletteStyle(

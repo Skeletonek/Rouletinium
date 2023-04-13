@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromARGB(255, 42, 42, 42),
         colorScheme: const ColorScheme.dark(
-          primary: Colors.lightBlueAccent,
+          primary: Colors.white,
           secondary: Colors.blue,
           surface: Colors.blue,
           error: Colors.red,
         ),
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const HomePage(),
     );
   }
 }

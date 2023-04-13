@@ -6,8 +6,8 @@ class Arrow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 20,
-      height: 50,
+      width: 24,
+      height: 32,
       child: CustomPaint(painter: _ArrowPainter()),
     );
   }
@@ -15,7 +15,7 @@ class Arrow extends StatelessWidget {
 
 class _ArrowPainter extends CustomPainter {
   final _paint = Paint()
-    ..color = Colors.amber
+    ..color = Colors.white
     ..style = PaintingStyle.fill;
 
   @override
