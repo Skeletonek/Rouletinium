@@ -65,6 +65,29 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return Scaffold(
       appBar: AppBar(
         title: const Text("Rouletinium"),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context){
+              return [
+                CheckedPopupMenuItem<int>(
+                    value: 0,
+                    checked: _clockwise,
+                    child: const Text("Zgodnie ze wskazówkami zegara"),
+                ),
+              ];
+            },
+            onSelected: (value){
+              switch(value){
+                case 0:
+                  setState(() {
+                    _rouletteController.resetAnimation();
+                    _clockwise = !_clockwise;
+                  });
+                break;
+              }
+            },
+          ),
+        ]
       ),
       body: Container(
         padding: const EdgeInsetsDirectional.all(20),
@@ -78,25 +101,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 child: MyRoulette(
                   controller: _rouletteController
                 ),
-              ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Zgodnie ze wskazówkami zegara: ",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Switch(
-                    value: _clockwise,
-                    onChanged: (onChanged) {
-                      setState(() {
-                        _rouletteController.resetAnimation();
-                        _clockwise = !_clockwise;
-                      });
-                    },
-                  ),
-                ],
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
               Row(
