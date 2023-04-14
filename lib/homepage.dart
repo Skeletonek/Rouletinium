@@ -182,7 +182,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _winnerIndex = _random.nextInt(list.length);
+          if(list.length > 1) {
+            _winnerIndex = _random.nextInt(list.length);
+          } else {
+            _winnerIndex = _random.nextInt(2);
+          }
           _rouletteController.rollTo(
             _winnerIndex,
             clockwise: _clockwise,
