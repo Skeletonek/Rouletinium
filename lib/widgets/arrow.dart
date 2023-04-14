@@ -15,7 +15,7 @@ class Arrow extends StatelessWidget {
 
 class _ArrowPainter extends CustomPainter {
   final _paint = Paint()
-    ..color = Colors.white
+    ..color = const Color(0xFF45A3FA)
     ..style = PaintingStyle.fill;
 
   @override
