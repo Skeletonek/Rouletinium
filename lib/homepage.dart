@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rouletinium/widgets/roulette.dart';
 import 'package:roulette/roulette.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -74,6 +75,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     checked: _clockwise,
                     child: const Text("Zgodnie ze wskazówkami zegara"),
                 ),
+                const PopupMenuItem<int>(
+                    value: 1,
+                    child: Text("O aplikacji"),
+                ),
               ];
             },
             onSelected: (value){
@@ -82,6 +87,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   setState(() {
                     _rouletteController.resetAnimation();
                     _clockwise = !_clockwise;
+                  });
+                break;
+                case 1:
+                  PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+                    showAlertDialog("Rouletinium",
+                        "Autor: Skeletonek\n"
+                        "Wersja: ${packageInfo.version}");
                   });
                 break;
               }
