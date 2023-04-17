@@ -1,6 +1,7 @@
 image: ghcr.io/cirruslabs/flutter:3.7.9
 
 before_script:
+  - git submodule update --init
   - flutter pub get
 
 pages:
