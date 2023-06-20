@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.4.0-git.2304161207+5
+version: 0.4.0-git.2306201505+5
 
 flutter_icons:
   android: true
@@ -45,12 +45,13 @@ dependencies:
   flutter:
     sdk: flutter
   roulette:
-    path:  ./packages/roulette
+    path: ./packages/roulette
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
   flutter_launcher_icons: ^0.13.0
+  flutter_iconpicker: ^3.2.2
   package_info_plus: ^3.1.0
 
 dev_dependencies:
