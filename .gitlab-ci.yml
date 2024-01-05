@@ -1,4 +1,4 @@
-image: ghcr.io/cirruslabs/flutter:3.13.5
+image: ghcr.io/cirruslabs/flutter:3.16.5
 
 before_script:
   - git submodule update --init
