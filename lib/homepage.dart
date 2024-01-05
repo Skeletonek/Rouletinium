@@ -121,6 +121,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(140, 255, 0, 0),
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.all(16),
                       minimumSize: const Size(96, 48),
                     ),
@@ -136,6 +137,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(140, 255, 150, 0),
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.all(16),
                       minimumSize: const Size(96, 48),
                     ),
@@ -171,6 +173,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.all(16),
                       minimumSize: const Size(96, 48),
                     ),

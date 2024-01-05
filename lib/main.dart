@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromARGB(255, 42, 42, 42),
         colorScheme: const ColorScheme.dark(
-          primary: Colors.white,
-          secondary: Colors.blue,
+          primary: Colors.blue,
+          secondary: Colors.white,
           surface: Colors.blue,
           error: Colors.red,
         ),
