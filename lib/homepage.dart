@@ -221,7 +221,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     try {
       list.add(_textEditingController.text);
       assignGroupToRoulette();
-    } on RangeError catch (e) {
+    } on RangeError {
       if(list.contains(_textEditingController.text)) {
         list.remove(_textEditingController.text);
       }
@@ -296,7 +296,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         const Duration(seconds: 3),
             (timer) => setState(
                 () {
-              print("Fired!");
               _winnerText = list[_winnerIndex];
               _timer?.cancel();
             }
