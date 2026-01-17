@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   static final _random = Random();
 
   late RouletteController _rouletteController;
+  late RouletteGroup _rouletteGroup;
   late TextEditingController _textEditingController;
   late FocusNode _textFocusNode;
   bool _clockwise = true;
@@ -49,13 +50,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     while(list.length < 2){
       list.add("");
     }
-    final group = RouletteGroup.uniform(
+    _rouletteGroup = RouletteGroup.uniform(
       list.length,
       colorBuilder: colors.elementAt,
       textBuilder: list.elementAt,
     );
     list.clear();
-    _rouletteController = RouletteController(vsync: this, group: group);
+    _rouletteController = RouletteController();
     _textEditingController = TextEditingController(text: "");
     _textFocusNode = FocusNode();
     super.initState();
@@ -110,8 +111,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 _winnerText
               ),
               Expanded(
-                child: MyRoulette(
-                  controller: _rouletteController
+                child: CustomRoulette(
+                  controller: _rouletteController,
+                  group: _rouletteGroup
                 ),
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
@@ -254,7 +256,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       colorBuilder: colors.elementAt,
       textBuilder: list.elementAt,
     );
-    _rouletteController.group = group;
+    _rouletteGroup = group;
     _rouletteController.resetAnimation();
     while(additionalFieldToRemove > 0){
       list.removeLast();

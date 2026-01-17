@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:roulette/roulette.dart';
 import 'arrow.dart';
 
-class MyRoulette extends StatelessWidget {
-  const MyRoulette({
+class CustomRoulette extends StatelessWidget {
+  const CustomRoulette({
     Key? key,
     required this.controller,
+    required this.group,
   }) : super(key: key);
 
+  final RouletteGroup group;
   final RouletteController controller;
 
   @override
@@ -18,6 +20,7 @@ class MyRoulette extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Roulette(
+            group: group,
             controller: controller,
             style: const RouletteStyle(
                 dividerThickness: 4,
