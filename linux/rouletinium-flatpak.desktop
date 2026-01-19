@@ -1,0 +1,13 @@
+[Desktop Entry]
+Categories=Utility;
+Exec=com.skeletonek.rouletinium
+GenericName=Rouletinium
+Comment=Roulette application created with Flutter
+Comment[pl]=Aplikacja ruletki stworzona za pomocą Flutter
+Icon=com.skeletonek.rouletinium
+Name=Rouletinium
+StartupWMClass=com.skeletonek.rouletinium
+StartupNotify=false
+Terminal=false
+Type=Application
+Keywords=roulette;
