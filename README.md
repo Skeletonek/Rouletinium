@@ -18,5 +18,5 @@ Please do note: The web version of Rouletinium app is based on the newest change
 
 # Building
 If you want to build Rouletinium by yourself you will need to download [Flutter SDK](https://docs.flutter.dev/get-started/install).\
-As for now, it is recommended to download Flutter 3.16.5. Also make sure you have a Dart SDK in version newer than 3.1.0.\
+As for now, it is recommended to FVM to handle version downloading. \
 For specific building instructions please refer to [Flutter Documentation](https://docs.flutter.dev/testing/build-modes).
