@@ -3,7 +3,7 @@
 ; Non-commercial use only
 
 #define MyAppName "Rouletinium"
-#define MyAppVersion "0.4.0"
+#define MyAppVersion "0.5"
 #define MyAppPublisher "Skeletonek"
 #define MyAppURL "https://www.skeletonek.com/apps/rouletinium/"
 #define MyAppExeName "Rouletinium.exe"
@@ -35,7 +35,7 @@ LicenseFile=..\LICENSE
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=..\build
-OutputBaseFilename=rouletinium-{#MyAppVersion}-x86_64
+OutputBaseFilename=Rouletinium-{#MyAppVersion}-Win_x64
 SetupIconFile=..\media\logo\icon.ico
 SolidCompression=yes
 WizardStyle=modern dynamic

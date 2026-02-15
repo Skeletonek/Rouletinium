@@ -3,7 +3,7 @@
 set -e
 
 version=$1
-package_name="rouletinium"
+package_name="Rouletinium"
 maintainer="Łukasz Plich <l.plich@skeletonek.com>"
 url="https://www.skeletonek.com/apps/rouletinium"
 
@@ -16,7 +16,7 @@ run_fpm() {
   fpm \
     -s dir \
     -t "$1" \
-    -p "build/${package_name}-${version}-x86_64.${file_ext}" \
+    -p "build/${package_name}-${version}-Linux_x64.${file_ext}" \
     --force \
     --name ${package_name} \
     --version "${version}" \
@@ -40,4 +40,4 @@ run_fpm rpm
 run_fpm pacman
 
 flatpak-builder --repo build/flatpak-repo --force-clean build/flatpak-build linux/rouletinium-flatpak.yaml
-flatpak build-bundle build/flatpak-repo "build/rouletinium-${version}-x86_64.flatpak" com.skeletonek.rouletinium
+flatpak build-bundle build/flatpak-repo "build/Rouletinium-${version}-Linux_x64.flatpak" com.skeletonek.rouletinium
