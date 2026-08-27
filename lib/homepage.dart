@@ -17,8 +17,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   late RouletteController _rouletteController;
   late RouletteGroup _rouletteGroup;
-  late TextEditingController _textEditingController;
-  late FocusNode _textFocusNode;
   bool _clockwise = true;
   String _winnerText = "";
   List<String> list = [];
@@ -55,10 +53,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       colorBuilder: colors.elementAt,
       textBuilder: list.elementAt,
     );
-    list.clear();
     _rouletteController = RouletteController();
-    _textEditingController = TextEditingController(text: "");
-    _textFocusNode = FocusNode();
     super.initState();
   }
 
@@ -131,7 +126,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     onPressed: () {
                       setState(() {
                         clearItemsButtonPressed();
-                        _textEditingController.text = "";
                       });
                     },
                     child: const Text("Wyczyść")
@@ -151,29 +145,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     },
                     child: const Text("Cofnij")
                   ),
-                ],
-              ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        constraints: BoxConstraints(
-                          maxWidth: 200,
-                        )
-                    ),
-                    maxLength: 20,
-                    controller: _textEditingController,
-                    onFieldSubmitted: (value){
-                      setState(() {
-                        addItemButtonPressed();
-                      });
-                      _textEditingController.text = "";
-                      _textFocusNode.requestFocus();
-                    },
-                    focusNode: _textFocusNode,
-                  ),
                   const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
                   TextButton(
                     style: TextButton.styleFrom(
@@ -185,8 +156,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     onPressed: () {
                       setState(() {
                         addItemButtonPressed();
-                        _textEditingController.text = "";
-                        _textFocusNode.requestFocus();
                       });
                     },
                     child: const Text("Dodaj")
@@ -202,11 +171,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if(list.length > 1) {
-            _winnerIndex = _random.nextInt(list.length);
-          } else {
-            _winnerIndex = _random.nextInt(2);
-          }
+          _winnerIndex = _random.nextInt(list.length);
           _rouletteController.rollTo(
             _winnerIndex,
             clockwise: _clockwise,
@@ -259,6 +224,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 foregroundColor: Colors.white,
               ),
               onPressed: () {
+                if (list.length <= 2) {
+                  Navigator.pop(dialogContext);
+                  showAlertDialog(
+                      "Error", "Nie można usunąć więcej pól.");
+                  return;
+                }
                 setState(() {
                   list.removeAt(index);
                   assignGroupToRoulette();
@@ -289,18 +260,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void addItemButtonPressed() {
     try {
-      list.add(_textEditingController.text);
+      list.add("");
       assignGroupToRoulette();
     } on RangeError {
-      if(list.contains(_textEditingController.text)) {
-        list.remove(_textEditingController.text);
-      }
       showAlertDialog("Error", "Przekroczono limit możliwych wpisów.");
     }
   }
 
   void undoItemsButtonPressed() {
-    if(list.isNotEmpty){
+    if(list.length > 2){
       list.removeLast();
       assignGroupToRoulette();
     } else {
@@ -310,15 +278,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void clearItemsButtonPressed() {
     list.clear();
+    while(list.length < 2){
+      list.add("");
+    }
     assignGroupToRoulette();
   }
 
   void assignGroupToRoulette() {
-    var additionalFieldToRemove = 0;
-    while(list.length < 2){
-      list.add("");
-      additionalFieldToRemove++;
-    }
     var group = RouletteGroup.uniform(
       list.length,
       colorBuilder: colors.elementAt,
@@ -326,10 +292,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
     _rouletteGroup = group;
     _rouletteController.resetAnimation();
-    while(additionalFieldToRemove > 0){
-      list.removeLast();
-      additionalFieldToRemove--;
-    }
   }
 
   void showAlertDialog(String title, String content) {
@@ -378,7 +340,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void dispose() {
     _rouletteController.dispose();
-    _textEditingController.dispose();
     _timer?.cancel();
     super.dispose();
   }
