@@ -1,6 +1,7 @@
 image: ghcr.io/gmeligio/flutter-web:3.47.1
 
 before_script:
+  - git config --global --add safe.directory "$CI_PROJECT_DIR"
   - git submodule update --init
   - flutter pub get
 
