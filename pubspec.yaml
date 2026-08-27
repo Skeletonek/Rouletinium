@@ -24,7 +24,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  roulette: ^0.3.2
+  roulette:
+    path: packages/roulette
   flutter_launcher_icons: ^0.14.4
   flutter_iconpicker: ^4.0.3
   package_info_plus: ^9.0.1

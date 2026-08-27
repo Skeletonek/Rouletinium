@@ -4,10 +4,10 @@ import 'arrow.dart';
 
 class CustomRoulette extends StatelessWidget {
   const CustomRoulette({
-    Key? key,
+    super.key,
     required this.controller,
     required this.group,
-  }) : super(key: key);
+  });
 
   final RouletteGroup group;
   final RouletteController controller;

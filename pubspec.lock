@@ -499,10 +499,9 @@ packages:
   roulette:
     dependency: "direct main"
     description:
-      name: roulette
-      sha256: b86c054821debab6d081ab637cd6ee266abdb33d77aec3c0086b425000b2afdf
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/roulette"
+      relative: true
+    source: path
     version: "0.3.2"
   scope:
     dependency: transitive
