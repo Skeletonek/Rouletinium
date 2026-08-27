@@ -272,6 +272,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       content: Text(content),
       actions: [
         TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
