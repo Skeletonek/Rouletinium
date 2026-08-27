@@ -124,9 +124,41 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       minimumSize: const Size(96, 48),
                     ),
                     onPressed: () {
-                      setState(() {
-                        clearItemsButtonPressed();
-                      });
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return AlertDialog(
+                            title: const Text("Potwierdź"),
+                            content: const Text(
+                                "Czy na pewno chcesz wyczyścić wszystkie pola?"),
+                            actions: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(dialogContext);
+                                },
+                                child: const Text("Anuluj"),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color.fromARGB(
+                                      140, 255, 0, 0),
+                                  foregroundColor: Colors.white,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(dialogContext);
+                                  setState(() {
+                                    clearItemsButtonPressed();
+                                  });
+                                },
+                                child: const Text("Wyczyść"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                     child: const Text("Wyczyść")
                   ),
