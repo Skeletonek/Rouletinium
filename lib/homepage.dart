@@ -165,7 +165,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     maxLength: 20,
                     controller: _textEditingController,
                     onFieldSubmitted: (value){
-                      addItemButtonPressed();
+                      setState(() {
+                        addItemButtonPressed();
+                      });
                       _textEditingController.text = "";
                       _textFocusNode.requestFocus();
                     },
