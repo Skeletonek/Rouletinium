@@ -1,7 +1,7 @@
 name: rouletinium
 description: Pandemonium Roulette
 publish_to: 'none'
-version: 0.5.0-git.2602152219+6
+version: 0.5.0-git.2608271720+6
 
 flutter_icons:
   android: true
@@ -19,16 +19,15 @@ flutter_icons:
     icon_size: 48
 
 environment:
-  sdk: ^3.10.9
+  sdk: ^3.13.1
 
 dependencies:
   flutter:
     sdk: flutter
-  roulette:
-    path: ./packages/roulette
-  flutter_launcher_icons: ^0.14.0
-  flutter_iconpicker: ^4.0.0
-  package_info_plus: ^9.0.0
+  roulette: ^0.3.2
+  flutter_launcher_icons: ^0.14.4
+  flutter_iconpicker: ^4.0.3
+  package_info_plus: ^9.0.1
 
 dev_dependencies:
   flutter_test:
