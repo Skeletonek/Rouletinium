@@ -20,15 +20,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rouletinium',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 42, 42, 42),
-        colorScheme: const ColorScheme.dark(
-          primary: Colors.blue,
-          secondary: Colors.white,
-          surface: Colors.blue,
-          error: Colors.red,
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
         ),
-        primarySwatch: Colors.blue,
       ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ),
+      ),
+      themeMode: ThemeMode.dark,
       home: const HomePage(),
     );
   }
