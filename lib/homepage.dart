@@ -113,7 +113,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               Expanded(
                 child: CustomRoulette(
                   controller: _rouletteController,
-                  group: _rouletteGroup
+                  group: _rouletteGroup,
+                  onTap: _onSectorTapped,
                 ),
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
@@ -218,6 +219,71 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           size: 32,
         ),
       ),
+    );
+  }
+
+  void _onSectorTapped(int index) {
+    if (index >= list.length) return;
+
+    final TextEditingController editController =
+        TextEditingController(text: list[index]);
+    final FocusNode editFocusNode = FocusNode();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text("Edytuj wpis"),
+          content: TextFormField(
+            controller: editController,
+            focusNode: editFocusNode,
+            maxLength: 20,
+            autofocus: true,
+            decoration: const InputDecoration(
+              constraints: BoxConstraints(
+                maxWidth: 200,
+              ),
+            ),
+            onFieldSubmitted: (value) {
+              setState(() {
+                list[index] = editController.text;
+                assignGroupToRoulette();
+              });
+              Navigator.pop(dialogContext);
+            },
+          ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: const Color.fromARGB(140, 255, 0, 0),
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  list.removeAt(index);
+                  assignGroupToRoulette();
+                });
+                Navigator.pop(dialogContext);
+              },
+              child: const Text("Usuń"),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  list[index] = editController.text;
+                  assignGroupToRoulette();
+                });
+                Navigator.pop(dialogContext);
+              },
+              child: const Text("Zapisz"),
+            ),
+          ],
+        );
+      },
     );
   }
 

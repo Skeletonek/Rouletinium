@@ -7,10 +7,12 @@ class CustomRoulette extends StatelessWidget {
     super.key,
     required this.controller,
     required this.group,
+    this.onTap,
   });
 
   final RouletteGroup group;
   final RouletteController controller;
+  final void Function(int index)? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,10 @@ class CustomRoulette extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Roulette(
+          child: TappableRoulette(
             group: group,
             controller: controller,
+            onTap: onTap,
             style: const RouletteStyle(
                 dividerThickness: 6,
                 textLayoutBias: .8,
