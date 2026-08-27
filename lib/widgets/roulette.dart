@@ -23,7 +23,7 @@ class CustomRoulette extends StatelessWidget {
             group: group,
             controller: controller,
             style: const RouletteStyle(
-                dividerThickness: 4,
+                dividerThickness: 6,
                 textLayoutBias: .8,
                 centerStickerColor: Color(0xFF45A3FA),
                 textStyle: TextStyle(
