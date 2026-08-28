@@ -16,6 +16,11 @@ class CustomRoulette extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = colorScheme.brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : Colors.black87;
+    final borderColor = isDark ? Colors.white : Colors.black;
+
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       children: [
@@ -25,17 +30,18 @@ class CustomRoulette extends StatelessWidget {
             group: group,
             controller: controller,
             onTap: onTap,
-            style: const RouletteStyle(
-                dividerThickness: 6,
-                textLayoutBias: .8,
-                centerStickerColor: Color(0xFF45A3FA),
-                textStyle: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Sans",
-                  overflow: TextOverflow.ellipsis,
-                  color: Colors.white
-                )
+            style: RouletteStyle(
+              dividerThickness: 6,
+              textLayoutBias: .8,
+              dividerColor: borderColor,
+              centerStickerColor: const Color(0xFF45A3FA),
+              textStyle: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Sans",
+                overflow: TextOverflow.ellipsis,
+                color: textColor,
+              ),
             ),
           ),
         ),

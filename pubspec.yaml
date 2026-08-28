@@ -28,6 +28,7 @@ dependencies:
     path: packages/roulette
   flutter_launcher_icons: ^0.14.4
   package_info_plus: ^10.2.1
+  dynamic_color: ^1.7.0
 
 dev_dependencies:
   flutter_test:

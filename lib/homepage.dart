@@ -128,7 +128,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             actions: [
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
+                                  foregroundColor:
+                                      Theme.of(context).colorScheme.primary,
                                 ),
                                 onPressed: () {
                                   Navigator.pop(dialogContext);
@@ -196,6 +197,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         onPressed: () {
           _winnerIndex = _random.nextInt(list.length);
           _rouletteController.rollTo(
@@ -206,7 +209,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         },
         child: const Icon(
           Icons.play_arrow,
-          color: Colors.white,
           size: 32,
         ),
       ),
@@ -324,16 +326,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     AlertDialog dialog = AlertDialog(
       title: Text(title),
       content: Text(content),
-      actions: [
-        TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("Ok")),
-      ],
+        actions: [
+          TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.primary,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Ok")),
+        ],
     );
     showDialog(
         context: context,
