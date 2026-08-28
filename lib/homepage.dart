@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rouletinium/widgets/roulette.dart';
 import 'package:roulette/roulette.dart';
@@ -18,10 +17,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   late RouletteController _rouletteController;
   late RouletteGroup _rouletteGroup;
   bool _clockwise = true;
-  String _winnerText = "";
   List<String> list = [];
   int _winnerIndex = 0;
-  Timer? _timer;
 
   final colors = <Color>[
     Colors.red,
@@ -50,7 +47,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     }
     _rouletteGroup = RouletteGroup.uniform(
       list.length,
-      colorBuilder: colors.elementAt,
+      colorBuilder: (i) => colors[i % colors.length],
       textBuilder: list.elementAt,
     );
     _rouletteController = RouletteController();
@@ -102,9 +99,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: Center(
           child: Column(
             children: [
-              Text(
-                _winnerText
-              ),
               Expanded(
                 child: CustomRoulette(
                   controller: _rouletteController,
@@ -319,7 +313,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void assignGroupToRoulette() {
     var group = RouletteGroup.uniform(
       list.length,
-      colorBuilder: colors.elementAt,
+      colorBuilder: (i) => colors[i % colors.length],
       textBuilder: list.elementAt,
     );
     _rouletteGroup = group;
@@ -348,31 +342,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         });
   }
 
-  List<Widget> objectsInListAsText() {
-    List<Widget> widgets = [];
-
-    for(int i = 0; i < list.length; i++) {
-      widgets.add(Text(list[i]));
-    }
-
-    return widgets;
-  }
-
-  void startTimer() {
-    _timer = Timer.periodic(
-        const Duration(seconds: 3),
-            (timer) => setState(
-                () {
-              _winnerText = list[_winnerIndex];
-              _timer?.cancel();
-            }
-        ));
-  }
-
   @override
   void dispose() {
     _rouletteController.dispose();
-    _timer?.cancel();
     super.dispose();
   }
 }

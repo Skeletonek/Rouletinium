@@ -27,8 +27,7 @@ dependencies:
   roulette:
     path: packages/roulette
   flutter_launcher_icons: ^0.14.4
-  flutter_iconpicker: ^4.0.3
-  package_info_plus: ^9.0.1
+  package_info_plus: ^10.2.1
 
 dev_dependencies:
   flutter_test:

@@ -3,12 +3,6 @@ import 'homepage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-//  if (!kIsWeb) {
-//    if (Platform.isWindows || Platform.isLinux) {
-//      setWindowTitle("Rouletinium");
-//      setWindowMinSize(const Size(600, 400));
-//    }
-// }
   runApp(const MyApp());
 }
 
@@ -20,14 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rouletinium',
       theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.dark,
-        ),
-      ),
-      darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
