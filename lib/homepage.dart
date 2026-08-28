@@ -4,6 +4,8 @@ import 'package:rouletinium/widgets/roulette.dart';
 import 'package:roulette/roulette.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+const int kMaxFields = 30;
+
 class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
@@ -137,6 +139,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   controller: _rouletteController,
                   group: _rouletteGroup,
                   onTap: _onSectorTapped,
+                  onSpin: _spin,
                 ),
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
@@ -229,22 +232,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        onPressed: () {
-          _winnerIndex = _random.nextInt(list.length);
-          _rouletteController.rollTo(
-            _winnerIndex,
-            clockwise: _clockwise,
-            offset: _random.nextDouble() * 0.9,
-          );
-        },
-        child: const Icon(
-          Icons.play_arrow,
-          size: 32,
-        ),
-      ),
+    );
+  }
+
+  void _spin() {
+    _winnerIndex = _random.nextInt(list.length);
+    _rouletteController.rollTo(
+      _winnerIndex,
+      clockwise: _clockwise,
+      offset: _random.nextDouble() * 0.9,
     );
   }
 
@@ -320,12 +316,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void addItemButtonPressed() {
-    try {
-      list.add("");
-      assignGroupToRoulette();
-    } on RangeError {
-      showAlertDialog("Error", "Przekroczono limit możliwych wpisów.");
+    if (list.length >= kMaxFields) {
+      showAlertDialog("Error", "Osiągnięto maksymalną liczbę pól ($kMaxFields).");
+      return;
     }
+    list.add("");
+    assignGroupToRoulette();
   }
 
   void undoItemsButtonPressed() {

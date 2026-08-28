@@ -8,11 +8,13 @@ class CustomRoulette extends StatelessWidget {
     required this.controller,
     required this.group,
     this.onTap,
+    this.onSpin,
   });
 
   final RouletteGroup group;
   final RouletteController controller;
   final void Function(int index)? onTap;
+  final VoidCallback? onSpin;
 
   @override
   Widget build(BuildContext context) {
@@ -21,32 +23,57 @@ class CustomRoulette extends StatelessWidget {
     final textColor = isDark ? Colors.white : Colors.black87;
     final borderColor = isDark ? Colors.white : Colors.black;
 
-    return Stack(
-      alignment: AlignmentDirectional.topCenter,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: TappableRoulette(
-            group: group,
-            controller: controller,
-            onTap: onTap,
-            style: RouletteStyle(
-              dividerThickness: 6,
-              textLayoutBias: .8,
-              dividerColor: borderColor,
-              centerStickerColor: const Color(0xFF45A3FA),
-              textStyle: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Sans",
-                overflow: TextOverflow.ellipsis,
-                color: textColor,
+    return Center(
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            TappableRoulette(
+              group: group,
+              controller: controller,
+              onTap: onTap,
+              style: RouletteStyle(
+                dividerThickness: 4,
+                textLayoutBias: .8,
+                dividerColor: borderColor,
+                centerStickerColor: const Color(0xFF45A3FA),
+                textStyle: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Sans",
+                  overflow: TextOverflow.ellipsis,
+                  color: textColor,
+                ),
               ),
             ),
-          ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: const Center(child: Arrow()),
+            ),
+            Center(
+              child: GestureDetector(
+                onTap: onSpin,
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF45A3FA),
+                  ),
+                  child: const Icon(
+                    Icons.play_arrow,
+                    color: Colors.white,
+                    size: 32,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        const Arrow(),
-      ],
+      ),
     );
   }
 }
