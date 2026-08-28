@@ -1,7 +1,7 @@
 name: rouletinium
 description: Pandemonium Roulette
 publish_to: 'none'
-version: 0.5.0-git.2608271842+6
+version: 0.5.0+6
 
 flutter_icons:
   android: true

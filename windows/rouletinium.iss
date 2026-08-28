@@ -3,7 +3,9 @@
 ; Non-commercial use only
 
 #define MyAppName "Rouletinium"
-#define MyAppVersion "0.5"
+#ifndef MyAppVersion
+#define MyAppVersion "0.5.0"
+#endif
 #define MyAppPublisher "Skeletonek"
 #define MyAppURL "https://www.skeletonek.com/apps/rouletinium/"
 #define MyAppExeName "Rouletinium.exe"

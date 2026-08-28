@@ -8,6 +8,10 @@ before_script:
 pages:
   stage: deploy
   script:
+    - BASE_VER=$(grep '^version:' pubspec.yaml | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
+    - BUILD_NO=$(grep '^version:' pubspec.yaml | grep -oE '\+[0-9]+' | tr -d '+' | head -n1)
+    - BUILD_NO=${BUILD_NO:-0}
+    - "sed -i -E \"s/^version: .*/version: ${BASE_VER}-git.${CI_COMMIT_SHORT_SHA:-dev}+${BUILD_NO}/\" pubspec.yaml"
     - flutter build web
     - cp -r build/web public
   artifacts:

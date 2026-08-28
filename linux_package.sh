@@ -2,7 +2,9 @@
 
 set -e
 
-version=$1
+BASE=$(grep -E '^version:' pubspec.yaml | sed -E 's/version:\s*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+BASE=${BASE:-0.5.0}
+version=${1:-$BASE}
 package_name="Rouletinium"
 maintainer="Łukasz Plich <l.plich@skeletonek.com>"
 url="https://www.skeletonek.com/apps/rouletinium"
@@ -30,12 +32,8 @@ run_fpm() {
     linux/rouletinium.desktop=/usr/share/applications/rouletinium.desktop
 }
 
-if [[ -z "$1" ]]; then
-  echo "Missing argument: version"
-  exit 1
-fi
-
 run_fpm deb
+cp "build/${package_name}-${version}-Linux_x64.deb" "build/rouletinium.deb"
 run_fpm rpm
 run_fpm pacman
 
