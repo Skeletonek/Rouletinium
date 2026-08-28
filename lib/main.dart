@@ -7,8 +7,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +39,11 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             colorScheme: darkColorScheme,
           ),
-          themeMode: ThemeMode.system,
-          home: const HomePage(),
+          themeMode: _themeMode,
+          home: HomePage(
+            themeMode: _themeMode,
+            onThemeModeChanged: (mode) => setState(() => _themeMode = mode),
+          ),
         );
       },
     );

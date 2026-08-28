@@ -5,7 +5,14 @@ import 'package:roulette/roulette.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+    required this.themeMode,
+    required this.onThemeModeChanged,
+  });
+
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode> onThemeModeChanged;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -62,12 +69,29 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         actions: [
           PopupMenuButton(
             itemBuilder: (context){
-              return [
+              return <PopupMenuEntry<int>>[
                 CheckedPopupMenuItem<int>(
                     value: 0,
                     checked: _clockwise,
                     child: const Text("Zgodnie ze wskazówkami zegara"),
                 ),
+                const PopupMenuDivider(),
+                CheckedPopupMenuItem<int>(
+                  value: 2,
+                  checked: widget.themeMode == ThemeMode.system,
+                  child: const Text("Motyw: Systemowy"),
+                ),
+                CheckedPopupMenuItem<int>(
+                  value: 3,
+                  checked: widget.themeMode == ThemeMode.light,
+                  child: const Text("Motyw: Jasny"),
+                ),
+                CheckedPopupMenuItem<int>(
+                  value: 4,
+                  checked: widget.themeMode == ThemeMode.dark,
+                  child: const Text("Motyw: Ciemny"),
+                ),
+                const PopupMenuDivider(),
                 const PopupMenuItem<int>(
                     value: 1,
                     child: Text("O aplikacji"),
@@ -88,6 +112,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         "Autor: Skeletonek\n"
                         "Wersja: ${packageInfo.version}");
                   });
+                break;
+                case 2:
+                  widget.onThemeModeChanged(ThemeMode.system);
+                break;
+                case 3:
+                  widget.onThemeModeChanged(ThemeMode.light);
+                break;
+                case 4:
+                  widget.onThemeModeChanged(ThemeMode.dark);
                 break;
               }
             },
