@@ -82,7 +82,7 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
       title: const Text("Edytuj wpis"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextFormField(
             controller: _controller,
@@ -90,7 +90,7 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
             autofocus: true,
             decoration: const InputDecoration(
               constraints: BoxConstraints(
-                maxWidth: 200,
+                maxWidth: double.infinity,
               ),
             ),
             onFieldSubmitted: (value) {
@@ -104,35 +104,51 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: widget.palette.map((color) {
-              final selected = color.toARGB32() == _selectedColor.toARGB32();
-              return GestureDetector(
-                onTap: () => setState(() => _selectedColor = color),
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: color,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: selected ? Colors.white : Colors.transparent,
-                      width: 3,
+            children: [
+              ...widget.palette.map((color) {
+                final selected = color.toARGB32() == _selectedColor.toARGB32();
+                return GestureDetector(
+                  onTap: () => setState(() => _selectedColor = color),
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: color,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: selected ? Colors.white : Colors.transparent,
+                        width: 3,
+                      ),
                     ),
+                    child: selected
+                        ? const Icon(Icons.check, size: 18, color: Colors.white)
+                        : null,
                   ),
-                  child: selected
-                      ? const Icon(Icons.check, size: 18, color: Colors.white)
-                      : null,
-                ),
-              );
-            }).toList(),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 6.0)),
-          TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.primary,
-            ),
-            onPressed: _openColorPicker,
-            child: const Text("Własny kolor"),
+                );
+              }).toList(),
+              Builder(
+                builder: (context) {
+                  final isCustom = !widget.palette
+                      .any((c) => c.toARGB32() == _selectedColor.toARGB32());
+                  return GestureDetector(
+                    onTap: _openColorPicker,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: isCustom ? _selectedColor : Colors.grey.shade700,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isCustom ? Colors.white : Colors.transparent,
+                          width: 3,
+                        ),
+                      ),
+                      child: const Icon(Icons.edit, size: 18, color: Colors.white),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
