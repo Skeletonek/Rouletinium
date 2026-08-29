@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:rouletinium/widgets/edit_field_dialog.dart';
 import 'package:rouletinium/widgets/roulette.dart';
 import 'package:roulette/roulette.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   late RouletteGroup _rouletteGroup;
   bool _clockwise = true;
   List<String> list = [];
+  List<Color> fieldColors = [];
   int _winnerIndex = 0;
 
   final colors = <Color>[
@@ -53,10 +55,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     }
     while(list.length < 2){
       list.add("");
+      fieldColors.add(colors[fieldColors.length % colors.length]);
     }
     _rouletteGroup = RouletteGroup.uniform(
       list.length,
-      colorBuilder: (i) => colors[i % colors.length],
+      colorBuilder: (i) => fieldColors[i],
       textBuilder: list.elementAt,
     );
     _rouletteController = RouletteController();
@@ -247,69 +250,33 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void _onSectorTapped(int index) {
     if (index >= list.length) return;
 
-    final TextEditingController editController =
-        TextEditingController(text: list[index]);
-    final FocusNode editFocusNode = FocusNode();
-
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: const Text("Edytuj wpis"),
-          content: TextFormField(
-            controller: editController,
-            focusNode: editFocusNode,
-            maxLength: 20,
-            autofocus: true,
-            decoration: const InputDecoration(
-              constraints: BoxConstraints(
-                maxWidth: 200,
-              ),
-            ),
-            onFieldSubmitted: (value) {
-              setState(() {
-                list[index] = editController.text;
-                assignGroupToRoulette();
-              });
+        return EditFieldDialog(
+          initialText: list[index],
+          initialColor: fieldColors[index],
+          palette: colors,
+          onSave: (text, color) {
+            setState(() {
+              list[index] = text;
+              fieldColors[index] = color;
+              assignGroupToRoulette();
+            });
+          },
+          onDelete: () {
+            if (list.length <= 2) {
               Navigator.pop(dialogContext);
-            },
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: const Color.fromARGB(140, 255, 0, 0),
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () {
-                if (list.length <= 2) {
-                  Navigator.pop(dialogContext);
-                  showAlertDialog(
-                      "Error", "Nie można usunąć więcej pól.");
-                  return;
-                }
-                setState(() {
-                  list.removeAt(index);
-                  assignGroupToRoulette();
-                });
-                Navigator.pop(dialogContext);
-              },
-              child: const Text("Usuń"),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () {
-                setState(() {
-                  list[index] = editController.text;
-                  assignGroupToRoulette();
-                });
-                Navigator.pop(dialogContext);
-              },
-              child: const Text("Zapisz"),
-            ),
-          ],
+              showAlertDialog("Error", "Nie można usunąć więcej pól.");
+              return;
+            }
+            setState(() {
+              list.removeAt(index);
+              fieldColors.removeAt(index);
+              assignGroupToRoulette();
+            });
+            Navigator.pop(dialogContext);
+          },
         );
       },
     );
@@ -321,12 +288,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       return;
     }
     list.add("");
+    fieldColors.add(colors[(list.length - 1) % colors.length]);
     assignGroupToRoulette();
   }
 
   void undoItemsButtonPressed() {
     if(list.length > 2){
       list.removeLast();
+      fieldColors.removeLast();
       assignGroupToRoulette();
     } else {
       showAlertDialog("Error", "Nie można cofnąć dalej.");
@@ -335,8 +304,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void clearItemsButtonPressed() {
     list.clear();
+    fieldColors.clear();
     while(list.length < 2){
       list.add("");
+      fieldColors.add(colors[fieldColors.length % colors.length]);
     }
     assignGroupToRoulette();
   }
@@ -344,7 +315,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void assignGroupToRoulette() {
     var group = RouletteGroup.uniform(
       list.length,
-      colorBuilder: (i) => colors[i % colors.length],
+      colorBuilder: (i) => fieldColors[i],
       textBuilder: list.elementAt,
     );
     _rouletteGroup = group;
