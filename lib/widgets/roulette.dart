@@ -21,7 +21,7 @@ class CustomRoulette extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = colorScheme.brightness == Brightness.dark;
     final textColor = isDark ? Colors.white : Colors.black87;
-    final borderColor = isDark ? Colors.white : Colors.black;
+    final borderColor = isDark ? Colors.white : Colors.grey.shade800;
 
     return Center(
       child: AspectRatio(

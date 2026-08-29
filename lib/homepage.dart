@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ]
       ),
       body: Container(
-        padding: const EdgeInsetsDirectional.all(20),
+        padding: const EdgeInsetsDirectional.all(8),
         child: Center(
           child: Column(
             children: [
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   onSpin: _spin,
                 ),
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 16.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ],
               ),
               Container(
-                height: 64,
+                padding: const EdgeInsets.only(bottom: 32),
               ),
             ],
           ),
