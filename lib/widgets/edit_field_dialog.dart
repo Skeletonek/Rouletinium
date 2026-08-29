@@ -7,15 +7,23 @@ class EditFieldDialog extends StatefulWidget {
     required this.initialText,
     required this.initialColor,
     required this.palette,
+    required this.currentIndex,
+    required this.fieldLabels,
+    required this.fieldColors,
     required this.onSave,
     required this.onDelete,
+    required this.onReorder,
   });
 
   final String initialText;
   final Color initialColor;
   final List<Color> palette;
+  final int currentIndex;
+  final List<String> fieldLabels;
+  final List<Color> fieldColors;
   final void Function(String text, Color color) onSave;
   final VoidCallback onDelete;
+  final void Function(int toIndex) onReorder;
 
   @override
   State<EditFieldDialog> createState() => _EditFieldDialogState();
@@ -76,6 +84,62 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
     );
   }
 
+  void _openReorderPicker() {
+    showDialog(
+      context: context,
+      builder: (pickerContext) {
+        return AlertDialog(
+          title: const Text("Przenieś do"),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: widget.fieldLabels.length,
+              itemBuilder: (context, targetIndex) {
+                final label = widget.fieldLabels[targetIndex];
+                final isCurrent = targetIndex == widget.currentIndex;
+                return ListTile(
+                  enabled: !isCurrent,
+                  leading: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: widget.fieldColors[targetIndex]
+                          .withAlpha(isCurrent ? 80 : 255),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 2),
+                    ),
+                  ),
+                  title: Text(
+                    isCurrent
+                        ? "${label.isNotEmpty ? label : "Pole ${targetIndex + 1}"} (obecne)"
+                        : (label.isNotEmpty ? label : "Pole ${targetIndex + 1}"),
+                  ),
+                  onTap: isCurrent
+                      ? null
+                      : () {
+                          widget.onReorder(targetIndex);
+                          Navigator.pop(pickerContext);
+                          Navigator.pop(context);
+                        },
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.primary,
+              ),
+              onPressed: () => Navigator.pop(pickerContext),
+              child: const Text("Anuluj"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -125,7 +189,7 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
                         : null,
                   ),
                 );
-              }).toList(),
+              }),
               Builder(
                 builder: (context) {
                   final isCustom = !widget.palette
@@ -160,6 +224,13 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
           ),
           onPressed: widget.onDelete,
           child: const Text("Usuń"),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.primary,
+          ),
+          onPressed: _openReorderPicker,
+          child: const Text("Przenieś"),
         ),
         TextButton(
           style: TextButton.styleFrom(

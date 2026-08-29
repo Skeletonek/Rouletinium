@@ -257,11 +257,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           initialText: list[index],
           initialColor: fieldColors[index],
           palette: colors,
+          currentIndex: index,
+          fieldLabels: list,
+          fieldColors: fieldColors,
           onSave: (text, color) {
             setState(() {
               list[index] = text;
               fieldColors[index] = color;
               assignGroupToRoulette();
+            });
+          },
+          onReorder: (toIndex) {
+            setState(() {
+              reorderField(index, toIndex);
             });
           },
           onDelete: () {
@@ -309,6 +317,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       list.add("");
       fieldColors.add(colors[fieldColors.length % colors.length]);
     }
+    assignGroupToRoulette();
+  }
+
+  void reorderField(int from, int to) {
+    if (from == to) return;
+    final text = list.removeAt(from);
+    list.insert(to, text);
+    final color = fieldColors.removeAt(from);
+    fieldColors.insert(to, color);
     assignGroupToRoulette();
   }
 
