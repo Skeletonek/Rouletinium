@@ -23,10 +23,10 @@ class _MyAppState extends State<MyApp> {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final lightColorScheme = lightDynamic ??
-            ColorScheme.fromSeed(seedColor: Colors.blue);
+            ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4));
         final darkColorScheme = darkDynamic ??
             ColorScheme.fromSeed(
-              seedColor: Colors.blue,
+              seedColor: const Color(0xFF6750A4),
               brightness: Brightness.dark,
             );
 
@@ -37,10 +37,28 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,
+            scaffoldBackgroundColor: lightColorScheme.surface,
+            dialogTheme: DialogThemeData(
+              backgroundColor: lightColorScheme.surface,
+              surfaceTintColor: Colors.transparent,
+            ),
+            popupMenuTheme: PopupMenuThemeData(
+              color: lightColorScheme.surface,
+              surfaceTintColor: Colors.transparent,
+            ),
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: darkColorScheme,
+            scaffoldBackgroundColor: darkColorScheme.surface,
+            dialogTheme: DialogThemeData(
+              backgroundColor: darkColorScheme.surface,
+              surfaceTintColor: Colors.transparent,
+            ),
+            popupMenuTheme: PopupMenuThemeData(
+              color: darkColorScheme.surface,
+              surfaceTintColor: Colors.transparent,
+            ),
           ),
           themeMode: _themeMode,
           home: HomePage(
