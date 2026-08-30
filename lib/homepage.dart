@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rouletinium/widgets/about_dialog.dart';
@@ -30,6 +31,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   List<String> list = [];
   List<Color> fieldColors = [];
   int _winnerIndex = 0;
+  String _winnerLabel = '';
+  bool _showWinnerLabel = false;
+  Timer? _winnerTimer;
 
   final colors = <Color>[
     Colors.red,
@@ -134,11 +138,50 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: Column(
             children: [
               Expanded(
-                child: CustomRoulette(
-                  controller: _rouletteController,
-                  group: _rouletteGroup,
-                  onTap: _onSectorTapped,
-                  onSpin: _spin,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CustomRoulette(
+                      controller: _rouletteController,
+                      group: _rouletteGroup,
+                      onTap: _onSectorTapped,
+                      onSpin: _spin,
+                    ),
+                    Positioned(
+                      bottom: 50,
+                      child: AnimatedOpacity(
+                        opacity: _showWinnerLabel ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Winner:",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
+                              ),
+                              Text(
+                                _winnerLabel,
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 16.0)),
@@ -178,13 +221,32 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  void _spin() {
+  Future<void> _spin() async {
     _winnerIndex = _random.nextInt(list.length);
-    _rouletteController.rollTo(
+    final completed = await _rouletteController.rollTo(
       _winnerIndex,
       clockwise: _clockwise,
       offset: _random.nextDouble() * 0.9,
     );
+    if (!completed || !mounted) return;
+    final winner = list[_winnerIndex];
+    if (winner.isNotEmpty) {
+      _displayWinnerLabel(winner);
+    }
+  }
+
+  void _displayWinnerLabel(String name) {
+    _winnerTimer?.cancel();
+    setState(() {
+      _winnerLabel = name;
+      _showWinnerLabel = true;
+    });
+    _winnerTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted) setState(() => _showWinnerLabel = false);
+      _winnerTimer = Timer(const Duration(milliseconds: 300), () {
+        if (mounted) setState(() => _winnerLabel = '');
+      });
+    });
   }
 
   void _onSectorTapped(int index) {
@@ -330,6 +392,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   void dispose() {
+    _winnerTimer?.cancel();
     _rouletteController.dispose();
     super.dispose();
   }
