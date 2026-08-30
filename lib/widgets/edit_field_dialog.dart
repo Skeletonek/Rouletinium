@@ -69,8 +69,8 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
               onPressed: () {
                 setState(() => _selectedColor = temp.withAlpha(140));
@@ -219,8 +219,8 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
       actions: [
         TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: const Color.fromARGB(140, 255, 0, 0),
-            foregroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.error,
+            foregroundColor: Theme.of(context).colorScheme.onError,
           ),
           onPressed: widget.onDelete,
           child: const Text("Usuń"),
@@ -234,8 +234,8 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
           ),
           onPressed: () {
             widget.onSave(_controller.text, _selectedColor);

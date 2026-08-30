@@ -14,7 +14,10 @@ void main() {
   testWidgets('Add button builds without errors', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    await tester.tap(find.widgetWithText(TextButton, 'Dodaj'));
+    expect(find.byType(FloatingActionButton), findsWidgets);
+    expect(find.byIcon(Icons.add), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.add));
     await tester.pump();
 
     expect(tester.takeException(), isNull);

@@ -142,95 +142,39 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 16.0)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(140, 255, 0, 0),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.all(16),
-                      minimumSize: const Size(96, 48),
-                    ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return AlertDialog(
-                            title: const Text("Potwierdź"),
-                            content: const Text(
-                                "Czy na pewno chcesz wyczyścić wszystkie pola?"),
-                            actions: [
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor:
-                                      Theme.of(context).colorScheme.primary,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(dialogContext);
-                                },
-                                child: const Text("Anuluj"),
-                              ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  backgroundColor: const Color.fromARGB(
-                                      140, 255, 0, 0),
-                                  foregroundColor: Colors.white,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(dialogContext);
-                                  setState(() {
-                                    clearItemsButtonPressed();
-                                  });
-                                },
-                                child: const Text("Wyczyść"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: const Text("Wyczyść")
-                  ),
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(140, 255, 150, 0),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.all(16),
-                      minimumSize: const Size(96, 48),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        undoItemsButtonPressed();
-                      });
-                    },
-                    child: const Text("Cofnij")
-                  ),
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.all(16),
-                      minimumSize: const Size(96, 48),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        addItemButtonPressed();
-                      });
-                    },
-                    child: const Text("Dodaj")
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.only(bottom: 32),
-              ),
             ],
           ),
         ),
       ),
+      floatingActionButton: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton(
+              heroTag: 'clear',
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+              onPressed: _showClearConfirmationDialog,
+              child: const Icon(Icons.delete_sweep_outlined),
+            ),
+            FloatingActionButton(
+              heroTag: 'add',
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              onPressed: () {
+                setState(() {
+                  addItemButtonPressed();
+                });
+              },
+              child: const Icon(Icons.add),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -286,6 +230,43 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
+  void _showClearConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text("Potwierdź"),
+          content: const Text(
+              "Czy na pewno chcesz wyczyścić wszystkie pola?"),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.primary,
+              ),
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: const Text("Anuluj"),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.error,
+                foregroundColor: Theme.of(context).colorScheme.onError,
+              ),
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                setState(() {
+                  clearItemsButtonPressed();
+                });
+              },
+              child: const Text("Wyczyść"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void addItemButtonPressed() {
     if (list.length >= kMaxFields) {
       showAlertDialog("Error", "Osiągnięto maksymalną liczbę pól ($kMaxFields).");
@@ -294,16 +275,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     list.add("");
     fieldColors.add(colors[(list.length - 1) % colors.length]);
     assignGroupToRoulette();
-  }
-
-  void undoItemsButtonPressed() {
-    if(list.length > 2){
-      list.removeLast();
-      fieldColors.removeLast();
-      assignGroupToRoulette();
-    } else {
-      showAlertDialog("Error", "Nie można cofnąć dalej.");
-    }
   }
 
   void clearItemsButtonPressed() {
