@@ -3,18 +3,22 @@ import 'package:roulette/roulette.dart';
 import 'arrow.dart';
 
 class CustomRoulette extends StatelessWidget {
+  static const double kDefaultMaxDiameter = 900;
+
   const CustomRoulette({
     super.key,
     required this.controller,
     required this.group,
     this.onTap,
     this.onSpin,
+    this.maxDiameter = kDefaultMaxDiameter,
   });
 
   final RouletteGroup group;
   final RouletteController controller;
   final void Function(int index)? onTap;
   final VoidCallback? onSpin;
+  final double maxDiameter;
 
   @override
   Widget build(BuildContext context) {
@@ -24,54 +28,61 @@ class CustomRoulette extends StatelessWidget {
     final borderColor = isDark ? Colors.white : Colors.grey.shade800;
 
     return Center(
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            TappableRoulette(
-              group: group,
-              controller: controller,
-              onTap: onTap,
-              style: RouletteStyle(
-                dividerThickness: 4,
-                textLayoutBias: .8,
-                dividerColor: borderColor,
-                centerStickerColor: const Color(0xFF45A3FA),
-                textStyle: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Sans",
-                  overflow: TextOverflow.ellipsis,
-                  color: textColor,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: const Center(child: Arrow()),
-            ),
-            Center(
-              child: GestureDetector(
-                onTap: onSpin,
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF45A3FA),
-                  ),
-                  child: const Icon(
-                    Icons.play_arrow,
-                    color: Colors.white,
-                    size: 32,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: maxDiameter,
+          maxHeight: maxDiameter,
+        ),
+        child: AspectRatio(
+          aspectRatio: 1.0,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              TappableRoulette(
+                group: group,
+                controller: controller,
+                onTap: onTap,
+                style: RouletteStyle(
+                  dividerThickness: 4,
+                  textLayoutBias: .8,
+                  dividerColor: borderColor,
+                  centerStickerColor: const Color(0xFF45A3FA),
+                  textPadding: 8,
+                  textStyle: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Sans",
+                    overflow: TextOverflow.ellipsis,
+                    color: textColor,
                   ),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: const Center(child: Arrow()),
+              ),
+              Center(
+                child: GestureDetector(
+                  onTap: onSpin,
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFF45A3FA),
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                      size: 32,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

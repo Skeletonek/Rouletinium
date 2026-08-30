@@ -1,7 +1,7 @@
 name: rouletinium
 description: Pandemonium Roulette
 publish_to: 'none'
-version: 0.6.0+60
+version: 1.0.0+100
 # NOTE: After changing Flutter SDK (.fvmrc) or roulette (packages/roulette/pubspec.yaml),
 # regenerate versions: dart tool/generate_versions.dart  -> lib/generated/versions.dart
 
