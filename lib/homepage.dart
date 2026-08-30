@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:rouletinium/widgets/about_dialog.dart';
 import 'package:rouletinium/widgets/edit_field_dialog.dart';
 import 'package:rouletinium/widgets/roulette.dart';
 import 'package:roulette/roulette.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 const int kMaxFields = 30;
 
@@ -112,11 +112,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   });
                 break;
                 case 1:
-                  PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-                    showAlertDialog("Rouletinium",
-                        "Autor: Skeletonek\n"
-                        "Wersja: ${packageInfo.version}");
-                  });
+                  showAboutRouletiniumDialog(context);
                 break;
                 case 2:
                   widget.onThemeModeChanged(ThemeMode.system);

@@ -2,6 +2,8 @@ name: rouletinium
 description: Pandemonium Roulette
 publish_to: 'none'
 version: 0.6.0+60
+# NOTE: After changing Flutter SDK (.fvmrc) or roulette (packages/roulette/pubspec.yaml),
+# regenerate versions: dart tool/generate_versions.dart  -> lib/generated/versions.dart
 
 flutter_icons:
   android: true
@@ -38,3 +40,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - media/icon.png
+    - media/skeletonek.jpg
