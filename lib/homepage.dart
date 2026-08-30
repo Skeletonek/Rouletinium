@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:rouletinium/l10n/app_localizations.dart';
 import 'package:rouletinium/widgets/about_dialog.dart';
 import 'package:rouletinium/widgets/edit_field_dialog.dart';
 import 'package:rouletinium/widgets/roulette.dart';
@@ -78,32 +79,33 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         actions: [
           PopupMenuButton(
             itemBuilder: (context){
+              final l10n = AppLocalizations.of(context);
               return <PopupMenuEntry<int>>[
                 CheckedPopupMenuItem<int>(
                     value: 0,
                     checked: _clockwise,
-                    child: const Text("Zgodnie ze wskazówkami zegara"),
+                    child: Text(l10n.menuClockwise),
                 ),
                 const PopupMenuDivider(),
                 CheckedPopupMenuItem<int>(
                   value: 2,
                   checked: widget.themeMode == ThemeMode.system,
-                  child: const Text("Motyw: Systemowy"),
+                  child: Text(l10n.menuThemeSystem),
                 ),
                 CheckedPopupMenuItem<int>(
                   value: 3,
                   checked: widget.themeMode == ThemeMode.light,
-                  child: const Text("Motyw: Jasny"),
+                  child: Text(l10n.menuThemeLight),
                 ),
                 CheckedPopupMenuItem<int>(
                   value: 4,
                   checked: widget.themeMode == ThemeMode.dark,
-                  child: const Text("Motyw: Ciemny"),
+                  child: Text(l10n.menuThemeDark),
                 ),
                 const PopupMenuDivider(),
-                const PopupMenuItem<int>(
+                PopupMenuItem<int>(
                     value: 1,
-                    child: Text("O aplikacji"),
+                    child: Text(l10n.menuAbout),
                 ),
               ];
             },
@@ -162,7 +164,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                "Winner:",
+                                AppLocalizations.of(context).winnerTitle,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -277,7 +279,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           onDelete: () {
             if (list.length <= 2) {
               Navigator.pop(dialogContext);
-              showAlertDialog("Error", "Nie można usunąć więcej pól.");
+              showAlertDialog(
+                AppLocalizations.of(context).errorTitle,
+                AppLocalizations.of(context).errorCannotDeleteMore,
+              );
               return;
             }
             setState(() {
@@ -293,13 +298,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void _showClearConfirmationDialog() {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: const Text("Potwierdź"),
-          content: const Text(
-              "Czy na pewno chcesz wyczyścić wszystkie pola?"),
+          title: Text(l10n.dialogConfirmTitle),
+          content: Text(l10n.dialogConfirmClearContent),
           actions: [
             TextButton(
               style: TextButton.styleFrom(
@@ -308,7 +313,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-              child: const Text("Anuluj"),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               style: TextButton.styleFrom(
@@ -321,7 +326,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   clearItemsButtonPressed();
                 });
               },
-              child: const Text("Wyczyść"),
+              child: Text(l10n.clear),
             ),
           ],
         );
@@ -331,7 +336,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void addItemButtonPressed() {
     if (list.length >= kMaxFields) {
-      showAlertDialog("Error", "Osiągnięto maksymalną liczbę pól ($kMaxFields).");
+      final l10n = AppLocalizations.of(context);
+      showAlertDialog(l10n.errorTitle, l10n.errorMaxFieldsReached(kMaxFields));
       return;
     }
     list.add("");
@@ -380,7 +386,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Ok")),
+              child: Text(AppLocalizations.of(context).ok)),
         ],
     );
     showDialog(

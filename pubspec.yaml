@@ -26,6 +26,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   roulette:
     path: packages/roulette
   flutter_colorpicker: ^1.1.0
@@ -39,6 +42,7 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - media/icon.png

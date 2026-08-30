@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:rouletinium/l10n/app_localizations.dart';
 
 class EditFieldDialog extends StatefulWidget {
   const EditFieldDialog({
@@ -48,11 +49,12 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
 
   void _openColorPicker() {
     Color temp = _selectedColor;
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (pickerContext) {
         return AlertDialog(
-          title: const Text("Wybierz kolor"),
+          title: Text(l10n.chooseColorTitle),
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: temp,
@@ -65,7 +67,7 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
                 foregroundColor: Theme.of(context).colorScheme.primary,
               ),
               onPressed: () => Navigator.pop(pickerContext),
-              child: const Text("Anuluj"),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               style: TextButton.styleFrom(
@@ -73,10 +75,10 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
                 foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
               onPressed: () {
-                setState(() => _selectedColor = temp.withAlpha(140));
+                setState(() => _selectedColor = temp);
                 Navigator.pop(pickerContext);
               },
-              child: const Text("Wybierz"),
+              child: Text(l10n.chooseColorSelect),
             ),
           ],
         );
@@ -85,11 +87,12 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
   }
 
   void _openReorderPicker() {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (pickerContext) {
         return AlertDialog(
-          title: const Text("Przenieś do"),
+          title: Text(l10n.moveToTitle),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView.builder(
@@ -112,8 +115,8 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
                   ),
                   title: Text(
                     isCurrent
-                        ? "${label.isNotEmpty ? label : "Pole ${targetIndex + 1}"} (obecne)"
-                        : (label.isNotEmpty ? label : "Pole ${targetIndex + 1}"),
+                        ? "${label.isNotEmpty ? label : l10n.fieldFallback(targetIndex + 1)} ${l10n.currentSuffix}"
+                        : (label.isNotEmpty ? label : l10n.fieldFallback(targetIndex + 1)),
                   ),
                   onTap: isCurrent
                       ? null
@@ -132,7 +135,7 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
                 foregroundColor: Theme.of(context).colorScheme.primary,
               ),
               onPressed: () => Navigator.pop(pickerContext),
-              child: const Text("Anuluj"),
+              child: Text(l10n.cancel),
             ),
           ],
         );
@@ -142,8 +145,9 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: const Text("Edytuj wpis"),
+      title: Text(l10n.editEntryTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -163,7 +167,7 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
             },
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-          const Text("Kolor"),
+          Text(l10n.colorLabel),
           const Padding(padding: EdgeInsets.symmetric(vertical: 6.0)),
           Wrap(
             spacing: 8,
@@ -223,14 +227,14 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
             foregroundColor: Theme.of(context).colorScheme.onError,
           ),
           onPressed: widget.onDelete,
-          child: const Text("Usuń"),
+          child: Text(l10n.delete),
         ),
         TextButton(
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).colorScheme.primary,
           ),
           onPressed: _openReorderPicker,
-          child: const Text("Przenieś"),
+          child: Text(l10n.move),
         ),
         TextButton(
           style: TextButton.styleFrom(
@@ -241,7 +245,7 @@ class _EditFieldDialogState extends State<EditFieldDialog> {
             widget.onSave(_controller.text, _selectedColor);
             Navigator.pop(context);
           },
-          child: const Text("Zapisz"),
+          child: Text(l10n.save),
         ),
       ],
     );

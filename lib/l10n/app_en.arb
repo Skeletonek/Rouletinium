@@ -1,0 +1,52 @@
+{
+  "@@locale": "en",
+  "menuClockwise": "Clockwise",
+  "menuThemeSystem": "Theme: System",
+  "menuThemeLight": "Theme: Light",
+  "menuThemeDark": "Theme: Dark",
+  "menuAbout": "About",
+  "winnerTitle": "Winner:",
+  "dialogConfirmTitle": "Confirm",
+  "dialogConfirmClearContent": "Are you sure you want to clear all fields?",
+  "cancel": "Cancel",
+  "clear": "Clear",
+  "errorTitle": "Error",
+  "errorCannotDeleteMore": "Cannot delete any more fields.",
+  "errorMaxFieldsReached": "Maximum number of fields reached ({count}).",
+  "@errorMaxFieldsReached": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "ok": "Ok",
+  "chooseColorTitle": "Choose color",
+  "chooseColorSelect": "Select",
+  "moveToTitle": "Move to",
+  "fieldFallback": "Field {number}",
+  "@fieldFallback": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "currentSuffix": "(current)",
+  "editEntryTitle": "Edit entry",
+  "colorLabel": "Color",
+  "delete": "Delete",
+  "move": "Move",
+  "save": "Save",
+  "aboutVersion": "v{version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "aboutAuthor": "Author",
+  "aboutCopyright": "Copyright",
+  "aboutLicense": "License",
+  "aboutLicenseValue": "GNU General Public License v3.0 (GPL-3.0)",
+  "aboutFlutterDart": "Flutter / Dart SDK",
+  "aboutOsPlatform": "OS / Platform",
+  "aboutRoulettePackage": "Roulette package",
+  "licenses": "Licenses",
+  "close": "Close"
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:rouletinium/l10n/app_localizations.dart';
 import '../generated/versions.dart';
 import '../utils/dart_version.dart' as dv;
 import '../utils/user_agent.dart' as ua;
@@ -62,11 +63,10 @@ class _AboutRouletiniumDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
       title: Row(
         children: [
-          // App icon — expects `media/icon.png` declared as asset in pubspec.yaml.
-          // Falls back to a generic icon if the asset is missing.
           _AppIcon(size: 48),
           const SizedBox(width: 12),
           Expanded(
@@ -75,7 +75,7 @@ class _AboutRouletiniumDialog extends StatelessWidget {
               children: [
                 const Text('Rouletinium'),
                 Text(
-                  'v${packageInfo.version}',
+                  l10n.aboutVersion(packageInfo.version),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -92,7 +92,6 @@ class _AboutRouletiniumDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Author row with icon
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -102,7 +101,7 @@ class _AboutRouletiniumDialog extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Author',
+                        Text(l10n.aboutAuthor,
                             style: theme.textTheme.labelMedium?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant)),
                         const SelectableText('Skeletonek'),
@@ -123,29 +122,28 @@ class _AboutRouletiniumDialog extends StatelessWidget {
 
               _InfoRow(
                 icon: Icons.copyright_outlined,
-                label: 'Copyright',
-                value:
-                    '© 2022–2026 Skeletonek',
+                label: l10n.aboutCopyright,
+                value: '\u00a9 2022\u20132026 Skeletonek',
               ),
               _InfoRow(
                 icon: Icons.description_outlined,
-                label: 'License',
-                value: 'GNU General Public License v3.0 (GPL-3.0)',
+                label: l10n.aboutLicense,
+                value: l10n.aboutLicenseValue,
               ),
               _InfoRow(
                 icon: Icons.flutter_dash,
-                label: 'Flutter / Dart SDK',
+                label: l10n.aboutFlutterDart,
                 value:
                     'Flutter $kFlutterSdkVersion \u2022 Dart ${dv.getDartVersion()}',
               ),
               _InfoRow(
                 icon: Icons.computer_outlined,
-                label: 'OS / Platform',
+                label: l10n.aboutOsPlatform,
                 value: platformDisplay,
               ),
               _InfoRow(
                 icon: Icons.extension_outlined,
-                label: 'Roulette package',
+                label: l10n.aboutRoulettePackage,
                 value:
                     'roulette $kRouletteVersion by $kRouletteAuthor\n$kRouletteLicense\nUpstream URL: $kRoulettePubUrl\nRouletinium Fork: $kRouletteForkUrl',
               ),
@@ -160,13 +158,13 @@ class _AboutRouletiniumDialog extends StatelessWidget {
             applicationName: 'Rouletinium',
             applicationVersion: 'v${packageInfo.version}+${packageInfo.buildNumber}',
             applicationIcon: const _AppIcon(size: 48),
-            applicationLegalese: '© 2022–2026 Skeletonek — GPL-3.0',
+            applicationLegalese: '\u00a9 2022\u20132026 Skeletonek \u2014 GPL-3.0',
           ),
-          child: const Text('Licenses'),
+          child: Text(l10n.licenses),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Close'),
+          child: Text(l10n.close),
         ),
       ],
     );

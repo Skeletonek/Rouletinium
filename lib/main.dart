@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:rouletinium/l10n/app_localizations.dart';
 import 'homepage.dart';
 
 void main() {
@@ -31,6 +32,8 @@ class _MyAppState extends State<MyApp> {
 
         return MaterialApp(
           title: 'Rouletinium',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,
