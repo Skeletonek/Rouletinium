@@ -40,5 +40,39 @@
   "aboutOsPlatform": "OS / Platform",
   "aboutRoulettePackage": "Roulette package",
   "licenses": "Licenses",
-  "close": "Close"
+  "close": "Close",
+  "menuSaveRoulette": "Save roulette",
+  "menuMyRoulettes": "My roulettes",
+  "saveRouletteTitle": "Save roulette",
+  "saveRouletteHint": "Roulette name",
+  "savedRoulettesTitle": "My roulettes",
+  "noSavedRoulettes": "No saved roulettes yet.",
+  "rouletteSaved": "Roulette saved.",
+  "errorMaxSavedReached": "Maximum number of saved roulettes reached ({count}).",
+  "@errorMaxSavedReached": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "confirmLoadTitle": "Load roulette?",
+  "confirmLoadContent": "Current roulette has unsaved changes. Load anyway?",
+  "load": "Load",
+  "fallbackRouletteName": "Roulette {date}",
+  "@fallbackRouletteName": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "confirmDeleteRoulette": "Delete \"{name}\"?",
+  "@confirmDeleteRoulette": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "fieldsCount": "{count, plural, =1{1 field} other{{count} fields}}",
+  "@fieldsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

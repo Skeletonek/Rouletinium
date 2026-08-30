@@ -106,4 +106,63 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get close => 'Zamknij';
+
+  @override
+  String get menuSaveRoulette => 'Zapisz ruletkę';
+
+  @override
+  String get menuMyRoulettes => 'Moje ruletki';
+
+  @override
+  String get saveRouletteTitle => 'Zapisz ruletkę';
+
+  @override
+  String get saveRouletteHint => 'Nazwa ruletki';
+
+  @override
+  String get savedRoulettesTitle => 'Moje ruletki';
+
+  @override
+  String get noSavedRoulettes => 'Brak zapisanych ruletek.';
+
+  @override
+  String get rouletteSaved => 'Ruletka zapisana.';
+
+  @override
+  String errorMaxSavedReached(int count) {
+    return 'Osiągnięto maksymalną liczbę zapisanych ruletek ($count).';
+  }
+
+  @override
+  String get confirmLoadTitle => 'Wczytać ruletkę?';
+
+  @override
+  String get confirmLoadContent =>
+      'Obecna ruletka ma niezapisane zmiany. Wczytać mimo to?';
+
+  @override
+  String get load => 'Wczytaj';
+
+  @override
+  String fallbackRouletteName(String date) {
+    return 'Ruletka $date';
+  }
+
+  @override
+  String confirmDeleteRoulette(String name) {
+    return 'Usunąć \"$name\"?';
+  }
+
+  @override
+  String fieldsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pola',
+      many: '$count pól',
+      few: '$count pola',
+      one: '$count pole',
+    );
+    return '$_temp0';
+  }
 }

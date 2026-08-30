@@ -30,5 +30,34 @@
   "aboutOsPlatform": "OS / Platforma",
   "aboutRoulettePackage": "Pakiet roulette",
   "licenses": "Licencje",
-  "close": "Zamknij"
+  "close": "Zamknij",
+  "menuSaveRoulette": "Zapisz ruletkę",
+  "menuMyRoulettes": "Moje ruletki",
+  "saveRouletteTitle": "Zapisz ruletkę",
+  "saveRouletteHint": "Nazwa ruletki",
+  "savedRoulettesTitle": "Moje ruletki",
+  "noSavedRoulettes": "Brak zapisanych ruletek.",
+  "rouletteSaved": "Ruletka zapisana.",
+  "errorMaxSavedReached": "Osiągnięto maksymalną liczbę zapisanych ruletek ({count}).",
+  "confirmLoadTitle": "Wczytać ruletkę?",
+  "confirmLoadContent": "Obecna ruletka ma niezapisane zmiany. Wczytać mimo to?",
+  "load": "Wczytaj",
+  "fallbackRouletteName": "Ruletka {date}",
+  "@fallbackRouletteName": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "confirmDeleteRoulette": "Usunąć \"{name}\"?",
+  "@confirmDeleteRoulette": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "fieldsCount": "{count, plural, one{{count} pole} few{{count} pola} many{{count} pól} other{{count} pola}}",
+  "@fieldsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

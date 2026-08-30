@@ -283,6 +283,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
+
+  /// No description provided for @menuSaveRoulette.
+  ///
+  /// In en, this message translates to:
+  /// **'Save roulette'**
+  String get menuSaveRoulette;
+
+  /// No description provided for @menuMyRoulettes.
+  ///
+  /// In en, this message translates to:
+  /// **'My roulettes'**
+  String get menuMyRoulettes;
+
+  /// No description provided for @saveRouletteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save roulette'**
+  String get saveRouletteTitle;
+
+  /// No description provided for @saveRouletteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Roulette name'**
+  String get saveRouletteHint;
+
+  /// No description provided for @savedRoulettesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My roulettes'**
+  String get savedRoulettesTitle;
+
+  /// No description provided for @noSavedRoulettes.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved roulettes yet.'**
+  String get noSavedRoulettes;
+
+  /// No description provided for @rouletteSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Roulette saved.'**
+  String get rouletteSaved;
+
+  /// No description provided for @errorMaxSavedReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum number of saved roulettes reached ({count}).'**
+  String errorMaxSavedReached(int count);
+
+  /// No description provided for @confirmLoadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Load roulette?'**
+  String get confirmLoadTitle;
+
+  /// No description provided for @confirmLoadContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current roulette has unsaved changes. Load anyway?'**
+  String get confirmLoadContent;
+
+  /// No description provided for @load.
+  ///
+  /// In en, this message translates to:
+  /// **'Load'**
+  String get load;
+
+  /// No description provided for @fallbackRouletteName.
+  ///
+  /// In en, this message translates to:
+  /// **'Roulette {date}'**
+  String fallbackRouletteName(String date);
+
+  /// No description provided for @confirmDeleteRoulette.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"?'**
+  String confirmDeleteRoulette(String name);
+
+  /// No description provided for @fieldsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 field} other{{count} fields}}'**
+  String fieldsCount(int count);
 }
 
 class _AppLocalizationsDelegate

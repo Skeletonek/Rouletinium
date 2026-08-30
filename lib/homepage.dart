@@ -2,9 +2,13 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rouletinium/l10n/app_localizations.dart';
+import 'package:rouletinium/models/saved_roulette.dart';
+import 'package:rouletinium/services/saved_roulettes_storage.dart';
 import 'package:rouletinium/widgets/about_dialog.dart';
 import 'package:rouletinium/widgets/edit_field_dialog.dart';
 import 'package:rouletinium/widgets/roulette.dart';
+import 'package:rouletinium/widgets/save_roulette_dialog.dart';
+import 'package:rouletinium/widgets/saved_roulettes_dialog.dart';
 import 'package:roulette/roulette.dart';
 
 const int kMaxFields = 30;
@@ -35,6 +39,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   String _winnerLabel = '';
   bool _showWinnerLabel = false;
   Timer? _winnerTimer;
+  final SavedRoulettesStorage _storage = SavedRoulettesStorage();
+  String _lastSavedHash = '';
 
   final colors = <Color>[
     Colors.red,
@@ -68,8 +74,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       textBuilder: list.elementAt,
     );
     _rouletteController = RouletteController();
+    _lastSavedHash = _currentHash();
     super.initState();
   }
+
+  String _currentHash() {
+    final entries = List.generate(
+        list.length, (i) => SavedEntry(text: list[i], color: fieldColors[i]));
+    return SavedRoulette.encodeList([
+      SavedRoulette(id: '', name: '', entries: entries, createdAt: DateTime.fromMillisecondsSinceEpoch(0))
+    ]);
+  }
+
+  bool get _isDirty => _currentHash() != _lastSavedHash;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +121,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
                 const PopupMenuDivider(),
                 PopupMenuItem<int>(
+                  value: 5,
+                  child: Text(l10n.menuSaveRoulette),
+                ),
+                PopupMenuItem<int>(
+                  value: 6,
+                  child: Text(l10n.menuMyRoulettes),
+                ),
+                const PopupMenuDivider(),
+                PopupMenuItem<int>(
                     value: 1,
                     child: Text(l10n.menuAbout),
                 ),
@@ -128,6 +154,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 break;
                 case 4:
                   widget.onThemeModeChanged(ThemeMode.dark);
+                break;
+                case 5:
+                  _saveRoulette();
+                break;
+                case 6:
+                  _showMyRoulettes();
                 break;
               }
             },
@@ -372,6 +404,85 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
     _rouletteGroup = group;
     _rouletteController.resetAnimation();
+  }
+
+  Future<void> _saveRoulette() async {
+    final l10n = AppLocalizations.of(context);
+    final name = await showDialog<String>(
+      context: context,
+      builder: (_) => const SaveRouletteDialog(),
+    );
+    if (name == null || !mounted) return;
+    final all = await _storage.loadAll();
+    if (all.length >= SavedRoulettesStorage.kMaxSaved) {
+      if (!mounted) return;
+      showAlertDialog(l10n.errorTitle, l10n.errorMaxSavedReached(SavedRoulettesStorage.kMaxSaved));
+      return;
+    }
+    final entries = List.generate(
+        list.length, (i) => SavedEntry(text: list[i], color: fieldColors[i]));
+    final saved = SavedRoulette(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      name: name,
+      entries: entries,
+      createdAt: DateTime.now(),
+    );
+    try {
+      await _storage.save(saved);
+    } on MaxSavedReachedException {
+      if (!mounted) return;
+      showAlertDialog(l10n.errorTitle, l10n.errorMaxSavedReached(SavedRoulettesStorage.kMaxSaved));
+      return;
+    }
+    _lastSavedHash = _currentHash();
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.rouletteSaved)),
+    );
+  }
+
+  Future<void> _showMyRoulettes() async {
+    final selected = await showSavedRoulettesDialog(context, storage: _storage);
+    if (selected == null || !mounted) return;
+    if (_isDirty) {
+      final l10n = AppLocalizations.of(context);
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(l10n.confirmLoadTitle),
+          content: Text(l10n.confirmLoadContent),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(l10n.cancel),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(l10n.load),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true) return;
+    }
+    _loadRoulette(selected);
+  }
+
+  void _loadRoulette(SavedRoulette r) {
+    setState(() {
+      list = r.entries.map((e) => e.text).toList();
+      fieldColors = r.entries.map((e) => e.color).toList();
+      while (list.length < 2) {
+        list.add('');
+        fieldColors.add(colors[fieldColors.length % colors.length]);
+      }
+      assignGroupToRoulette();
+    });
+    _lastSavedHash = _currentHash();
   }
 
   void showAlertDialog(String title, String content) {

@@ -106,4 +106,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
+
+  @override
+  String get menuSaveRoulette => 'Save roulette';
+
+  @override
+  String get menuMyRoulettes => 'My roulettes';
+
+  @override
+  String get saveRouletteTitle => 'Save roulette';
+
+  @override
+  String get saveRouletteHint => 'Roulette name';
+
+  @override
+  String get savedRoulettesTitle => 'My roulettes';
+
+  @override
+  String get noSavedRoulettes => 'No saved roulettes yet.';
+
+  @override
+  String get rouletteSaved => 'Roulette saved.';
+
+  @override
+  String errorMaxSavedReached(int count) {
+    return 'Maximum number of saved roulettes reached ($count).';
+  }
+
+  @override
+  String get confirmLoadTitle => 'Load roulette?';
+
+  @override
+  String get confirmLoadContent =>
+      'Current roulette has unsaved changes. Load anyway?';
+
+  @override
+  String get load => 'Load';
+
+  @override
+  String fallbackRouletteName(String date) {
+    return 'Roulette $date';
+  }
+
+  @override
+  String confirmDeleteRoulette(String name) {
+    return 'Delete \"$name\"?';
+  }
+
+  @override
+  String fieldsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fields',
+      one: '1 field',
+    );
+    return '$_temp0';
+  }
 }
