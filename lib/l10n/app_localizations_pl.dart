@@ -87,24 +87,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get save => 'Zapisz';
 
   @override
-  String aboutVersion(String version) {
-    return 'v$version';
-  }
-
-  @override
   String get aboutAuthor => 'Autor';
 
   @override
-  String get aboutCopyright => 'Copyright';
+  String get aboutCopyright => 'Prawa autorskie';
 
   @override
   String get aboutLicense => 'Licencja';
-
-  @override
-  String get aboutLicenseValue => 'GNU General Public License v3.0 (GPL-3.0)';
-
-  @override
-  String get aboutFlutterDart => 'Flutter / Dart SDK';
 
   @override
   String get aboutOsPlatform => 'OS / Platforma';

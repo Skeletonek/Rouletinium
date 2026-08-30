@@ -242,12 +242,6 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get save;
 
-  /// No description provided for @aboutVersion.
-  ///
-  /// In en, this message translates to:
-  /// **'v{version}'**
-  String aboutVersion(String version);
-
   /// No description provided for @aboutAuthor.
   ///
   /// In en, this message translates to:
@@ -265,18 +259,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'License'**
   String get aboutLicense;
-
-  /// No description provided for @aboutLicenseValue.
-  ///
-  /// In en, this message translates to:
-  /// **'GNU General Public License v3.0 (GPL-3.0)'**
-  String get aboutLicenseValue;
-
-  /// No description provided for @aboutFlutterDart.
-  ///
-  /// In en, this message translates to:
-  /// **'Flutter / Dart SDK'**
-  String get aboutFlutterDart;
 
   /// No description provided for @aboutOsPlatform.
   ///

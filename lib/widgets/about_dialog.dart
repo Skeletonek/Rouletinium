@@ -75,7 +75,7 @@ class _AboutRouletiniumDialog extends StatelessWidget {
               children: [
                 const Text('Rouletinium'),
                 Text(
-                  l10n.aboutVersion(packageInfo.version),
+                  'v${packageInfo.version}',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -128,11 +128,11 @@ class _AboutRouletiniumDialog extends StatelessWidget {
               _InfoRow(
                 icon: Icons.description_outlined,
                 label: l10n.aboutLicense,
-                value: l10n.aboutLicenseValue,
+                value: 'GNU General Public License v3.0 (GPL-3.0)',
               ),
               _InfoRow(
                 icon: Icons.flutter_dash,
-                label: l10n.aboutFlutterDart,
+                label: 'Flutter / Dart SDK',
                 value:
                     'Flutter $kFlutterSdkVersion \u2022 Dart ${dv.getDartVersion()}',
               ),

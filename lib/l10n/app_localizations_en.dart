@@ -87,11 +87,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get save => 'Save';
 
   @override
-  String aboutVersion(String version) {
-    return 'v$version';
-  }
-
-  @override
   String get aboutAuthor => 'Author';
 
   @override
@@ -99,12 +94,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutLicense => 'License';
-
-  @override
-  String get aboutLicenseValue => 'GNU General Public License v3.0 (GPL-3.0)';
-
-  @override
-  String get aboutFlutterDart => 'Flutter / Dart SDK';
 
   @override
   String get aboutOsPlatform => 'OS / Platform';

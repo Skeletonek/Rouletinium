@@ -34,17 +34,9 @@
   "delete": "Delete",
   "move": "Move",
   "save": "Save",
-  "aboutVersion": "v{version}",
-  "@aboutVersion": {
-    "placeholders": {
-      "version": { "type": "String" }
-    }
-  },
   "aboutAuthor": "Author",
   "aboutCopyright": "Copyright",
   "aboutLicense": "License",
-  "aboutLicenseValue": "GNU General Public License v3.0 (GPL-3.0)",
-  "aboutFlutterDart": "Flutter / Dart SDK",
   "aboutOsPlatform": "OS / Platform",
   "aboutRoulettePackage": "Roulette package",
   "licenses": "Licenses",
