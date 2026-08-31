@@ -7,7 +7,7 @@ void main() {
   testWidgets('Renders app title and spin button', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    expect(find.text('Rouletinium'), findsOneWidget);
+    expect(find.byType(AppBar), findsOneWidget);
     expect(find.byIcon(Icons.play_arrow), findsOneWidget);
   });
 

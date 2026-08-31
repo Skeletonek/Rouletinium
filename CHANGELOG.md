@@ -1,4 +1,7 @@
 ### 1.0.0
+- Updated the Flutter SDK to version 3.47.2
+- Updated the Dart SDK to version 3.13.2
+- Updated remaining dependencies
 - Added option to change roulette field color
 - Added option to use custom colors for roulette fields
 - Added option to move roulette fields to a different slot
