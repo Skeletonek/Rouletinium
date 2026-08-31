@@ -74,5 +74,18 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  "menuUpdate": "Update available",
+  "updateTitle": "Update available",
+  "updateFromTo": "Update from {from} to {to}",
+  "@updateFromTo": {
+    "placeholders": {
+      "from": { "type": "String" },
+      "to": { "type": "String" }
+    }
+  },
+  "updateChangelog": "Changelog",
+  "updateChangelogUnavailable": "Changelog unavailable.",
+  "download": "Download",
+  "later": "Later"
 }

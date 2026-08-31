@@ -163,4 +163,27 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get menuUpdate => 'Update available';
+
+  @override
+  String get updateTitle => 'Update available';
+
+  @override
+  String updateFromTo(String from, String to) {
+    return 'Update from $from to $to';
+  }
+
+  @override
+  String get updateChangelog => 'Changelog';
+
+  @override
+  String get updateChangelogUnavailable => 'Changelog unavailable.';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get later => 'Later';
 }

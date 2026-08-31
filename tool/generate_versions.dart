@@ -38,4 +38,30 @@ const String kRouletteVersion = '$rouletteVersion';
   stdout.writeln('Generated lib/generated/versions.dart:');
   stdout.writeln('  kFlutterSdkVersion = $flutterVersion');
   stdout.writeln('  kRouletteVersion = $rouletteVersion');
+
+  // Also generate version.json for update checker (server.skeletonek.com)
+  final pubspecFile = File('pubspec.yaml');
+  if (!pubspecFile.existsSync()) {
+    stderr.writeln('Missing pubspec.yaml');
+    exit(1);
+  }
+  final pubspec = pubspecFile.readAsStringSync();
+  final verMatch = RegExp(r'^version:\s*([^\s#]+)', multiLine: true).firstMatch(pubspec);
+  final fullVersion = verMatch?.group(1)?.trim() ?? '1.0.0+100';
+  final parts = fullVersion.split('+');
+  final versionName = parts[0];
+  final buildStr = parts.length > 1 ? parts[1] : '100';
+  final buildNumber = int.tryParse(buildStr) ?? 0;
+
+  final versionJson = {
+    'version': versionName,
+    'buildNumber': buildNumber,
+    'downloadUrl': 'https://gitlab.com/Skeletonek/Rouletinium/-/releases',
+    'changelogUrl': 'https://server.skeletonek.com/app/rouletinium/CHANGELOG.md',
+  };
+  final encoder = JsonEncoder.withIndent('  ');
+  File('version.json').writeAsStringSync('${encoder.convert(versionJson)}\n');
+  stdout.writeln('Generated version.json:');
+  stdout.writeln('  version = $versionName');
+  stdout.writeln('  buildNumber = $buildNumber');
 }

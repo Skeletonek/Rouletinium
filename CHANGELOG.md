@@ -1,3 +1,20 @@
+### 1.0.0
+- Added option to change roulette field color
+- Added option to use custom colors for roulette fields
+- Added option to move roulette fields to a different slot
+- Added saving custom roulettes for later use
+- Added toast popup showing text of the winner field 
+- Added localization support
+- Changed the default language to english
+- Added polish translation
+- Added built-in update checker
+- Changed main view button arrangment
+- Improved about dialog look
+- Limited maximum size of the roulette on bigger displays
+- Improved text rendering inside the roulette, especially when many fields are present
+- Fixed some components not using Material You dynamic colors
+- Fixed Windows InnoSetup installer build missing dynamic_color_plugin.dll
+
 ### 0.6.0
 - Updated the Flutter SDK to version 3.47.1
 - Updated remaining dependencies

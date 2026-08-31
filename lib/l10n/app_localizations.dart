@@ -367,6 +367,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 field} other{{count} fields}}'**
   String fieldsCount(int count);
+
+  /// No description provided for @menuUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update available'**
+  String get menuUpdate;
+
+  /// No description provided for @updateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update available'**
+  String get updateTitle;
+
+  /// No description provided for @updateFromTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Update from {from} to {to}'**
+  String updateFromTo(String from, String to);
+
+  /// No description provided for @updateChangelog.
+  ///
+  /// In en, this message translates to:
+  /// **'Changelog'**
+  String get updateChangelog;
+
+  /// No description provided for @updateChangelogUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Changelog unavailable.'**
+  String get updateChangelogUnavailable;
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
 }
 
 class _AppLocalizationsDelegate

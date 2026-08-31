@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rouletinium/l10n/app_localizations.dart';
 import 'package:rouletinium/models/saved_roulette.dart';
+import 'package:rouletinium/models/update_info.dart';
 import 'package:rouletinium/services/saved_roulettes_storage.dart';
+import 'package:rouletinium/services/update_service.dart';
 import 'package:rouletinium/widgets/about_dialog.dart';
 import 'package:rouletinium/widgets/edit_field_dialog.dart';
 import 'package:rouletinium/widgets/roulette.dart';
 import 'package:rouletinium/widgets/save_roulette_dialog.dart';
 import 'package:rouletinium/widgets/saved_roulettes_dialog.dart';
+import 'package:rouletinium/widgets/update_dialog.dart';
 import 'package:roulette/roulette.dart';
 
 const int kMaxFields = 30;
@@ -41,6 +44,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Timer? _winnerTimer;
   final SavedRoulettesStorage _storage = SavedRoulettesStorage();
   String _lastSavedHash = '';
+  UpdateInfo? _updateInfo;
+  late final UpdateService _updateService;
 
   final colors = <Color>[
     Colors.red,
@@ -75,7 +80,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
     _rouletteController = RouletteController();
     _lastSavedHash = _currentHash();
+    _updateService = UpdateService();
     super.initState();
+    _checkForUpdate();
+  }
+
+  Future<void> _checkForUpdate() async {
+    final info = await _updateService.checkForUpdate();
+    if (!mounted || info == null) return;
+    setState(() => _updateInfo = info);
   }
 
   String _currentHash() {
@@ -95,6 +108,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         title: const Text("Rouletinium"),
         actions: [
           PopupMenuButton(
+            icon: Badge(
+              isLabelVisible: _updateInfo != null,
+              backgroundColor: Colors.red,
+              smallSize: 8,
+              child: const Icon(Icons.more_vert),
+            ),
             itemBuilder: (context){
               final l10n = AppLocalizations.of(context);
               return <PopupMenuEntry<int>>[
@@ -122,16 +141,56 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 const PopupMenuDivider(),
                 PopupMenuItem<int>(
                   value: 5,
-                  child: Text(l10n.menuSaveRoulette),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.save_outlined, size: 20),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(l10n.menuSaveRoulette)),
+                    ],
+                  ),
                 ),
                 PopupMenuItem<int>(
                   value: 6,
-                  child: Text(l10n.menuMyRoulettes),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.list_alt_outlined, size: 20),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(l10n.menuMyRoulettes)),
+                    ],
+                  ),
                 ),
+                if (_updateInfo != null) ...[
+                  const PopupMenuDivider(),
+                  PopupMenuItem<int>(
+                    value: 7,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.system_update, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(child: Text(l10n.menuUpdate)),
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
                 const PopupMenuDivider(),
                 PopupMenuItem<int>(
                     value: 1,
-                    child: Text(l10n.menuAbout),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.info_outline, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(child: Text(l10n.menuAbout)),
+                      ],
+                    ),
                 ),
               ];
             },
@@ -160,6 +219,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 break;
                 case 6:
                   _showMyRoulettes();
+                break;
+                case 7:
+                  if (_updateInfo != null) {
+                    showUpdateDialog(context, _updateInfo!);
+                  }
                 break;
               }
             },
@@ -511,6 +575,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void dispose() {
     _winnerTimer?.cancel();
     _rouletteController.dispose();
+    _updateService.dispose();
     super.dispose();
   }
 }

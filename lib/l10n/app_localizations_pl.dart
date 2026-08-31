@@ -165,4 +165,27 @@ class AppLocalizationsPl extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get menuUpdate => 'Aktualizacja dostępna';
+
+  @override
+  String get updateTitle => 'Dostępna aktualizacja';
+
+  @override
+  String updateFromTo(String from, String to) {
+    return 'Aktualizacja z $from do $to';
+  }
+
+  @override
+  String get updateChangelog => 'Lista zmian';
+
+  @override
+  String get updateChangelogUnavailable => 'Lista zmian niedostępna.';
+
+  @override
+  String get download => 'Pobierz';
+
+  @override
+  String get later => 'Później';
 }

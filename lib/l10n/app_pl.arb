@@ -59,5 +59,18 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  "menuUpdate": "Aktualizacja dostępna",
+  "updateTitle": "Dostępna aktualizacja",
+  "updateFromTo": "Aktualizacja z {from} do {to}",
+  "@updateFromTo": {
+    "placeholders": {
+      "from": { "type": "String" },
+      "to": { "type": "String" }
+    }
+  },
+  "updateChangelog": "Lista zmian",
+  "updateChangelogUnavailable": "Lista zmian niedostępna.",
+  "download": "Pobierz",
+  "later": "Później"
 }
