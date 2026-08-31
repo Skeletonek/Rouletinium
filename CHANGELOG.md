@@ -11,6 +11,7 @@
 - Changed the default language to english
 - Added polish translation
 - Added built-in update checker
+- Added support for GTK_CSD=0 env var, for disabling client side decoration in Linux Wayland environments
 - Changed main view button arrangment
 - Improved about dialog look
 - Limited maximum size of the roulette on bigger displays
