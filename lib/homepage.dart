@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Rouletinium"),
+        automaticallyImplyLeading: false,
         actions: [
           PopupMenuButton(
             icon: Badge(
