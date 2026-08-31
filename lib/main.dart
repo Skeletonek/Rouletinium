@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/material.dart';
 import 'package:rouletinium/l10n/app_localizations.dart';
 import 'homepage.dart';
 
